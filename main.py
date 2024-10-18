@@ -3,8 +3,6 @@ import requests
 import scrapers.bookie_scraper
 from scrapers.games_scraper import GamesScraper
 from datetime import datetime
-test = GamesScraper()
-test.get_nfl_games()
 
 
 # text = "Tuesday, October 22, 2024"
@@ -14,7 +12,11 @@ test.get_nfl_games()
 # print(date)
 #
 
+test = GamesScraper()
+games = test.get_nfl_games()
 
+for game in games:
+    print(game)
 
 
 

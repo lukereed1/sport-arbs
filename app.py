@@ -1,18 +1,23 @@
 import sqlite3
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, redirect
+from db.db import get_db_connection
+from scrapers.games_scraper import GamesScraper
 
 app = Flask(__name__)
 
 
-def get_db_connection():
-    conn = sqlite3.connect("./db/odds.db")
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
-@app.route('/')
+@app.route("/")
 def index():
     conn = get_db_connection()
     games = conn.execute("SELECT * FROM games").fetchall()
     conn.close()
     return render_template("index.html", games=games)
+
+
+@app.route("/scrape_upcoming_games", methods=["POST"])
+def scrape_upcoming_games():
+    scraper = GamesScraper()
+    scraper.get_nfl_games()
+    return redirect(url_for('index'))
+
+

@@ -2,6 +2,9 @@
 
 {% block content %}
     <h1>{% block title %} Games {% endblock %}</h1>
+    <form action="{{ url_for('scrape_upcoming_games') }}" method="post">
+        <button type="submit">Run Scraper</button>
+    </form>
         <table>
             <thead>
             <tr>
@@ -20,7 +23,8 @@
                     <td>{{ game['home_team'] }}</td>
                     <td>{{ game['away_team'] }}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
-    {% endfor %}
+
 {% endblock %}
