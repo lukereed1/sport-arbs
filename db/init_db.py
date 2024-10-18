@@ -10,6 +10,8 @@ cur = connection.cursor()
 cur.execute("INSERT INTO games (home_team, away_team, game_date, game_time) VALUES (?, ?, ?, ?)",
             ("Team_A", "Team_B", "2024-10-21", "14:13:00"))
 
+cur.execute("INSERT INTO games (home_team, away_team, game_date, game_time) VALUES (?, ?, ?, ?)",
+            ("Team_C", "Team_D", "2024-10-21", "16:13:00"))
 
 connection.commit()
 connection.close()

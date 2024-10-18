@@ -3,8 +3,9 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
 def get_db_connection():
-    conn = sqlite3.connect("odds.db")
+    conn = sqlite3.connect("./db/odds.db")
     conn.row_factory = sqlite3.Row
     return conn
 

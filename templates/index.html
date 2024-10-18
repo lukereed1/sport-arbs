@@ -2,13 +2,25 @@
 
 {% block content %}
     <h1>{% block title %} Games {% endblock %}</h1>
-    {% for game in games %}
-        <div class='post'>
-            <p>{{ game['game_date'] }}</p>
-            <p>{{ game['game_time'] }}</p>
-            <h2>Game</h2>
-            <p>{{ game['home_team'] }}</p>
-            <p>{{ game['away_team'] }}</p>
-        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>Game Date</th>
+                <th>Game Time</th>
+                <th>Home</th>
+                <th>Away</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                {% for game in games %}
+                <tr>
+                    <td>{{ game['game_date'] }}</td>
+                    <td>{{ game['game_time'] }}</td>
+                    <td>{{ game['home_team'] }}</td>
+                    <td>{{ game['away_team'] }}</td>
+                </tr>
+            </tbody>
+        </table>
     {% endfor %}
 {% endblock %}
