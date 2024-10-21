@@ -1,11 +1,11 @@
 from util import get_soup
 from bs4 import SoupStrainer
 from datetime import datetime
-from db.db import insert_game
+from db.db import DB
 import requests
 
 
-class GamesScraper():
+class GamesScraper:
     def get_nfl_games(self):
         url = "https://www.espn.com.au/nfl/schedule"
         strainer = SoupStrainer("div", attrs={"class": "Wrapper Card__Content overflow-visible"})
@@ -36,13 +36,16 @@ class GamesScraper():
                     away_team = away_team.split("/")[6]
 
                 game = {
+                    "sport": 1,
                     "home": home_team,
                     "away": away_team,
                     "date": date,
                     "time": time
                 }
-                insert_game(game)
-        return all_games
+
+                db = DB()
+                if not db.check_game_exists(game):
+                    db.insert_game(game)
 
     @staticmethod
     def convert_date(date):
