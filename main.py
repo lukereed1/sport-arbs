@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup, SoupStrainer
 import requests
 import scrapers.bookie_scraper
+from db.db import DB
 from scrapers.games_scraper import GamesScraper
 from datetime import datetime
 
@@ -13,11 +14,11 @@ from datetime import datetime
 #
 
 test = GamesScraper()
-games = test.get_nfl_games()
-
+db = DB()
+games = db.get_upcoming_games(1)
 for game in games:
-    print(game)
-
+    print(game['home_team'])
+    print(game['away_team'])
 
 
 ## sb nfl

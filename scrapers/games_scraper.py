@@ -2,16 +2,16 @@ from util import get_soup
 from bs4 import SoupStrainer
 from datetime import datetime
 from db.db import DB
-import requests
 
 
 class GamesScraper:
+    def __init__(self):
+        self.NFL_URL = "https://www.espn.com.au/nfl/schedule"
+
     def get_nfl_games(self):
-        url = "https://www.espn.com.au/nfl/schedule"
         strainer = SoupStrainer("div", attrs={"class": "Wrapper Card__Content overflow-visible"})
-        soup = get_soup(url, strainer)
+        soup = get_soup(self.NFL_URL, strainer)
         game_containers = soup.find_all(class_="ScheduleTables")
-        all_games = []
 
         for container in game_containers:
             # Gets date of games and converts to db format
@@ -26,7 +26,7 @@ class GamesScraper:
                 if time is not None:
                     time = self.convert_to_24hr(time.get_text())
                 else:
-                    continue  # Don't continue to get home/away teams of completed games
+                    continue  # Don't get data if games completed
 
                 home_team = game.find("td", class_="colspan__col Table__TD").find("a", class_="AnchorLink")["href"]
                 if home_team is not None:

@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 
 
-class Scraper(ABC):
+class BookieScraper(ABC):
     def get_nfl_games(self):
-        print("Hello, world!")
-
+        pass
 
     @abstractmethod
     def scrape_nfl_h2h(self):
         pass
 
+    def hello_word(self):
+        print("hello world")
