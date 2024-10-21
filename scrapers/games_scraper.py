@@ -1,8 +1,9 @@
+from team_names.NFLteams import espn_mapping
 from util import get_soup
 from bs4 import SoupStrainer
 from datetime import datetime
 from db.db import DB
-
+from team_names import NFLteams
 
 class GamesScraper:
     def __init__(self):
@@ -12,6 +13,9 @@ class GamesScraper:
         strainer = SoupStrainer("div", attrs={"class": "Wrapper Card__Content overflow-visible"})
         soup = get_soup(self.NFL_URL, strainer)
         game_containers = soup.find_all(class_="ScheduleTables")
+
+        if not game_containers:
+            return
 
         for container in game_containers:
             # Gets date of games and converts to db format
@@ -37,8 +41,8 @@ class GamesScraper:
 
                 game = {
                     "sport": 1,
-                    "home": home_team,
-                    "away": away_team,
+                    "home": espn_mapping(home_team),
+                    "away": espn_mapping(away_team),
                     "date": date,
                     "time": time
                 }
