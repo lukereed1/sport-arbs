@@ -2,6 +2,7 @@ import os
 import sqlite3
 from flask import Flask, render_template, url_for, redirect
 from db.db import DB
+from scrapers.SportsbetScraper import SportsbetScraper
 from scrapers.games_scraper import GamesScraper
 
 app = Flask(__name__)
@@ -32,6 +33,8 @@ def index():
 def scrape_upcoming_games():
     scraper = GamesScraper()
     scraper.get_nfl_games()
+    sb = SportsbetScraper()
+    sb.scrape_nfl_h2h()
     return redirect(url_for('index'))
 
 

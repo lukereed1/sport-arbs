@@ -22,6 +22,7 @@ print(" ")
 url = "https://www.sportsbet.com.au/betting/american-football/nfl"
 
 
+# Testing
 def scrape_nfl_h2h():
     db = DB()
     games = db.get_upcoming_games(1)
@@ -61,8 +62,6 @@ def scrape_nfl_h2h():
                         }
                         db = DB()
                         db.insert_game_market(game_market)
-                else:
-                    continue
 
 
 

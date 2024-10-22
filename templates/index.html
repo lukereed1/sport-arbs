@@ -35,13 +35,14 @@
             <thead>
             <tr>
                 <th>Sport</th>
+                <th>Bookmaker</th>
                 <th>Market</th>
                 <th>Game Date</th>
                 <th>Game Time</th>
                 <th>Outcome 1</th>
-                <th>Outcome 1 Odds</th>
+                <th>Odds 1</th>
                 <th>Outcome 2</th>
-                <th>Outcome 2 Odds</th>
+                <th>Odds 2</th>
             </tr>
             </thead>
 
@@ -49,6 +50,7 @@
                 {% for market in markets %}
                 <tr>
                     <td>{{ market['sport'] }}</td>
+                    <td>{{ market['bookmaker'] }}</td>
                     <td>{{ market['market'] }}</td>
                     <td>{{ market['game_date'] }}</td>
                     <td>{{ market['game_time'] }}</td>
