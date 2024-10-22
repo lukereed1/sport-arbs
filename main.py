@@ -43,27 +43,36 @@ def scrape_nfl_h2h():
             curr_date_games_list = container.next_sibling.find_all("li")
 
             for li_game in curr_date_games_list:
+                # teams
                 away = li_game.find("div", {"data-automation-id": "participant-one"}).get_text()
                 home = li_game.find("div", {"data-automation-id": "participant-two"}).get_text()
                 if away is None or home is None:
                     continue
 
+                # odds
+                odds = li_game.find_all("span", class_="size14_f7opyze bold_f1au7gae priceTextSize_frw9zm9")
+
+                if odds[0] is None or odds[1] is None:
+                    return
+
+                print(f"away odds: {odds[0].get_text()}")
+                print(f"home odds: {odds[1].get_text()}")
+                print(" ")
+
                 if home == game['home_team']:
                     if away == game['away_team']:
-                        # print(f"{home} vs {away} is in the database")
+                        print(f"{home} vs {away} is in the database")
                         game_market = {
                             "id": game['id'],
                             "bookmaker_id": 1,
                             "market_id": 1,
                             "opt_1": home,
-                            "opt_1_odds": 1.5,
+                            "opt_1_odds": odds[1].get_text(),
                             "opt_2": away,
-                            "opt_2_odds": 1.9
+                            "opt_2_odds": odds[0].get_text()
                         }
                         db = DB()
                         db.insert_game_market(game_market)
-
-
 
 
 

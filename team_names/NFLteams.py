@@ -73,39 +73,6 @@ def espn_mapping(team):
     }
     return map[team].value
 
+
 def sportsbet_mapping(team):
-    map = {
-        "arizona-cardinals": NFLTeam.ARIZONA_CARDINALS,
-        "atlanta-falcons": NFLTeam.ATLANTA_FALCONS,
-        "baltimore-ravens": NFLTeam.BALTIMORE_RAVENS,
-        "buffalo-bills": NFLTeam.BUFFALO_BILLS,
-        "carolina-panthers": NFLTeam.CAROLINA_PANTHERS,
-        "chicago-bears": NFLTeam.CHICAGO_BEARS,
-        "cincinnati-bengals": NFLTeam.CINCINNATI_BENGALS,
-        "cleveland-browns": NFLTeam.CLEVELAND_BROWNS,
-        "dallas-cowboys": NFLTeam.DALLAS_COWBOYS,
-        "denver-broncos": NFLTeam.DENVER_BRONCOS,
-        "detroit-lions": NFLTeam.DETROIT_LIONS,
-        "green-bay-packers": NFLTeam.GREEN_BAY_PACKERS,
-        "houston-texans": NFLTeam.HOUSTON_TEXANS,
-        "indianapolis-colts": NFLTeam.INDIANAPOLIS_COLTS,
-        "jacksonville-jaguars": NFLTeam.JACKSONVILLE_JAGUARS,
-        "kansas-city-chiefs": NFLTeam.KANSAS_CITY_CHIEFS,
-        "las-vegas-raiders": NFLTeam.LAS_VEGAS_RAIDERS,
-        "los-angeles-chargers": NFLTeam.LOS_ANGELES_CHARGERS,
-        "los-angeles-rams": NFLTeam.LOS_ANGELES_RAMS,
-        "miami-dolphins": NFLTeam.MIAMI_DOLPHINS,
-        "minnesota-vikings": NFLTeam.MINNESOTA_VIKINGS,
-        "new-england-patriots": NFLTeam.NEW_ENGLAND_PATRIOTS,
-        "new-orleans-saints": NFLTeam.NEW_ORLEANS_SAINTS,
-        "new-york-giants": NFLTeam.NEW_YORK_GIANTS,
-        "new-york-jets": NFLTeam.NEW_YORK_JETS,
-        "philadelphia-eagles": NFLTeam.PHILADELPHIA_EAGLES,
-        "pittsburgh-steelers": NFLTeam.PITTSBURGH_STEELERS,
-        "san-francisco-49ers": NFLTeam.SAN_FRANCISCO_49ERS,
-        "seattle-seahawks": NFLTeam.SEATTLE_SEAHAWKS,
-        "tampa-bay-buccaneers": NFLTeam.TAMPA_BAY_BUCCANEERS,
-        "tennessee-titans": NFLTeam.TENNESSEE_TITANS,
-        "washington-commanders": NFLTeam.WASHINGTON_COMMANDERS
-    }
-    return map[team].value
+    pass

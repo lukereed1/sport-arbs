@@ -7,7 +7,7 @@ from team_names import NFLteams
 
 class GamesScraper:
     def __init__(self):
-        self.NFL_URL = "https://www.espn.com.au/nfl/schedule/_/week/8/year/2024/seasontype/2"
+        self.NFL_URL = "https://www.espn.com.au/nfl/schedule/_/week/8/year/2024/seasontype/2" #  for testing
         # https://www.espn.com.au/nfl/schedule
 
     def get_nfl_games(self):
