@@ -17,18 +17,15 @@ from util import get_soup
 
 
 test = GamesScraper()
-db = DB()
-games = db.get_upcoming_games(1)
-print(games[0]['id'])
-stored_game_dates = [game['game_date'] for game in games]
-for x in stored_game_dates:
-    print(x)
 
 print(" ")
 url = "https://www.sportsbet.com.au/betting/american-football/nfl"
 
 
 def scrape_nfl_h2h():
+    db = DB()
+    games = db.get_upcoming_games(1)
+    stored_game_dates = [game['game_date'] for game in games]
     strainer = SoupStrainer("div", attrs={"data-automation-id": "competition-matches-container"})
     soup = get_soup(url, strainer)
     game_containers = soup.find_all("div", class_="groupTitleContainerDesktop_fukjuk5 groupTitleExtra_f1r0fg9l")
@@ -40,35 +37,27 @@ def scrape_nfl_h2h():
         if date is None:
             return
 
-        # With date found on web page, compare to games rows dates, if it matches
-        # then compare home and away team, if matches again we can add this to our db with the odds
+        for game in games:
+            if game['game_date'] != date:
+                continue
 
-        if date not in stored_game_dates:
-            continue
 
-        # available games for date
-        game_list = container.next_sibling.find_all("li")
-        for game in game_list:
+
+
+            # compare db.games.date with bookiegame list date
+            # continue next iteration if not found
+            # if date != game['game_date'] continue;
+            # get list of games for current container (date was found in db row)
+            # if bookie home team != game['home_team'] continue;
+            # if bookie away team != game['away_team'] continue;
+            # bookie game matches game in db
+            # find bookie odds for either side
+            # add to db (make new table) use game['id'] as foreign key in new table
+
+            # bookie_game_list = container.next_sibling.find_all("li")
+            # if not bookie_game_list:
+            #     continue
             print(game)
 
 
-
-
-
-
-
-# scrape_nfl_h2h()
-
-# url = "https://www.sportsbet.com.au/betting/american-football/nfl"
-# strainer = SoupStrainer("div", attrs={"class": "multiMarketCouponContainer_f234ak7"})
-# soup = get_soup(url, strainer)
-#
-# game_containers = soup.find_all(class_="multiMarketCouponContainer_f234ak7")
-#
-#
-# for container in game_containers:
-#     away = container.find("div", {"data-automation-id": "participant-one"}).get_text()
-#     home = container.find("div", {"data-automation-id": "participant-two"}).get_text()
-#     print(f"home: {home}")
-#     print(f"away: {away}")
-#     print(" ")
+scrape_nfl_h2h()
