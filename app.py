@@ -24,7 +24,8 @@ init_db()
 def index():
     db = DB()
     games = db.get_all_games()
-    return render_template("index.html", games=games)
+    markets = db.get_all_markets()
+    return render_template("index.html", games=games, markets=markets)
 
 
 @app.route("/scrape_upcoming_games", methods=["POST"])

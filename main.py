@@ -25,13 +25,11 @@ url = "https://www.sportsbet.com.au/betting/american-football/nfl"
 def scrape_nfl_h2h():
     db = DB()
     games = db.get_upcoming_games(1)
-    stored_game_dates = [game['game_date'] for game in games]
     strainer = SoupStrainer("div", attrs={"data-automation-id": "competition-matches-container"})
     soup = get_soup(url, strainer)
     game_containers = soup.find_all("div", class_="groupTitleContainerDesktop_fukjuk5 groupTitleExtra_f1r0fg9l")
     if not game_containers:
         return
-
     for container in game_containers:
         date = container.find("time").get('datetime')
         if date is None:
@@ -41,23 +39,33 @@ def scrape_nfl_h2h():
             if game['game_date'] != date:
                 continue
 
+            curr_date_games_list = container.next_sibling.find_all("li")
+
+            for li_game in curr_date_games_list:
+                away = li_game.find("div", {"data-automation-id": "participant-one"}).get_text()
+                home = li_game.find("div", {"data-automation-id": "participant-two"}).get_text()
+                if away is None or home is None:
+                    continue
+
+                if home == game['home_team']:
+                    if away == game['away_team']:
+                        # print(f"{home} vs {away} is in the database")
+                        game_market = {
+                            "id": game['id'],
+                            "bookmaker_id": 1,
+                            "market_id": 1,
+                            "opt_1": home,
+                            "opt_1_odds": 1.5,
+                            "opt_2": away,
+                            "opt_2_odds": 1.9
+                        }
+                        db = DB()
+                        db.insert_game_market(game_market)
+                else:
+                    continue
 
 
 
-            # compare db.games.date with bookiegame list date
-            # continue next iteration if not found
-            # if date != game['game_date'] continue;
-            # get list of games for current container (date was found in db row)
-            # if bookie home team != game['home_team'] continue;
-            # if bookie away team != game['away_team'] continue;
-            # bookie game matches game in db
-            # find bookie odds for either side
-            # add to db (make new table) use game['id'] as foreign key in new table
-
-            # bookie_game_list = container.next_sibling.find_all("li")
-            # if not bookie_game_list:
-            #     continue
-            print(game)
 
 
 scrape_nfl_h2h()

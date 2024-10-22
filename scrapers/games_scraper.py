@@ -9,6 +9,7 @@ class GamesScraper:
     def __init__(self):
         self.NFL_URL = "https://www.espn.com.au/nfl/schedule/_/week/8/year/2024/seasontype/2"
         # https://www.espn.com.au/nfl/schedule
+
     def get_nfl_games(self):
         strainer = SoupStrainer("div", attrs={"class": "Wrapper Card__Content overflow-visible"})
         soup = get_soup(self.NFL_URL, strainer)
