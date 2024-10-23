@@ -81,3 +81,29 @@ class DB:
             print(f"Problem inserting game market\nError: {e}")
         finally:
             conn.close()
+
+    def check_game_market_exists(self, game_id, bookmaker_id, market_id):
+        conn = self.get_db_connection()
+        try:
+            game_market = conn.execute(
+                "SELECT * FROM game_markets WHERE game_id = ? AND bookmaker_id = ? AND market_id = ?"
+                , (game_id, bookmaker_id, market_id, )).fetchone()
+            return game_market
+        except sqlite3.OperationalError as e:
+            print(f"Problem checking if game market exists\nError: {e}")
+        finally:
+            conn.close()
+
+    def update_game_market_odds(self, game_market_id, new_odds_1, new_odds_2):
+        conn = self.get_db_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("UPDATE game_markets "
+                           "SET option_1_odds = ?, option_2_odds = ? "
+                           "WHERE id = ?", (new_odds_1, new_odds_2, game_market_id,))
+            conn.commit()
+            # need this to refresh index page eventually (if odds updated)
+        except sqlite3.OperationalError as e:
+            print(f"Problem updating game market odds\nError: {e}")
+        finally:
+            conn.close()

@@ -8,8 +8,8 @@ from bs4 import SoupStrainer
 
 class SportsbetScraper(BookieScraper, ABC):
     def __init__(self):
-        self.NFL_URL = "https://www.sportsbet.com.au/betting/american-football/nfl"
         self.db = DB()
+        self.NFL_URL = "https://www.sportsbet.com.au/betting/american-football/nfl"
 
     def scrape_nfl_h2h(self):
         games = self.db.get_upcoming_games(1)
@@ -36,19 +36,33 @@ class SportsbetScraper(BookieScraper, ABC):
                         continue
 
                     odds = li_game.find_all("span", class_="size14_f7opyze bold_f1au7gae priceTextSize_frw9zm9")
-                    if odds[0] is None or odds[1] is None:
+                    home_odds = float(odds[1].get_text())
+                    away_odds = float(odds[0].get_text())
+
+                    if home_odds is None or away_odds is None:
                         return
 
                     if home == game['home_team']:
                         if away == game['away_team']:
-                            # print(f"{home} vs {away} is in the database")
-                            game_market = {
-                                "id": game['id'],
-                                "bookmaker_id": 1,
-                                "market_id": 1,
-                                "opt_1": home,
-                                "opt_1_odds": odds[1].get_text(),
-                                "opt_2": away,
-                                "opt_2_odds": odds[0].get_text()
-                            }
-                            self.db.insert_game_market(game_market)
+                            db = DB()
+                            # Gets existing game market if exists for SB H2H
+                            existing_game_market = db.check_game_market_exists(game['id'], 1, 1)
+
+                            # if game market exists, checks odds to see if they require updating
+                            if existing_game_market is not None:
+                                existing_home_odds = existing_game_market['option_1_odds']
+                                existing_away_odds = existing_game_market['option_2_odds']
+                                if existing_home_odds != home_odds or existing_away_odds != away_odds:
+                                    db.update_game_market_odds(existing_game_market['id'], home_odds, away_odds)
+
+                            else:
+                                game_market = {
+                                    "id": game['id'],
+                                    "bookmaker_id": 1,
+                                    "market_id": 1,
+                                    "opt_1": home,
+                                    "opt_1_odds": home_odds,
+                                    "opt_2": away,
+                                    "opt_2_odds": away_odds
+                                }
+                                self.db.insert_game_market(game_market)
