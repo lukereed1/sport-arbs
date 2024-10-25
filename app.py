@@ -2,10 +2,13 @@ import os
 import sqlite3
 from flask import Flask, render_template, url_for, redirect
 from db.db import DB
-from scrapers.SportsbetScraper import SportsbetScraper
+from scrapers.sportsbet_scraper import SportsbetScraper
+from scrapers.neds_scraper import NedsScraper
 from scrapers.games_scraper import GamesScraper
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
+# socketio = SocketIO
 
 
 def init_db():
@@ -35,8 +38,11 @@ def scrape_upcoming_games():
     scraper.get_nfl_games()
     sb = SportsbetScraper()
     sb.scrape_nfl_h2h()
+    neds = NedsScraper()
+    neds.scrape_nfl_h2h()
     return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
+    # socketio.run(app, debug=False, allow_unsafe_werkzeug=True)
