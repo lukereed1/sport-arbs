@@ -19,7 +19,7 @@ def get_soup(url, strainer):
 
 # use when site has loading screens
 async def get_soup_pyppeteer(url, strainer):
-    browser = await launch(headless=True,
+    browser = await launch(headless=False,
                            handleSIGINT=False,
                            handleSIGTERM=False,
                            handleSIGHUP=False)

@@ -56,6 +56,7 @@ VALUES (1, "Team_C", "Team_B", "2024-10-10", "20:13:00");
 
 INSERT INTO bookmakers(bookmaker) VALUES ('Sportsbet');
 INSERT INTO bookmakers(bookmaker) VALUES ('Neds');
+INSERT INTO bookmakers(bookmaker) VALUES ('TAB');
 
 INSERT INTO markets(market) VALUES("H2H");
 INSERT INTO markets(market) VALUES("Line");

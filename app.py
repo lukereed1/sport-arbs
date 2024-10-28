@@ -46,8 +46,6 @@ def sport():
 def scrape_upcoming_games():
     scraper = GamesScraper()
     scraper.get_nfl_games()
-    for scraper in scrapers:
-        scraper.scrape_nfl_h2h()
 
     return redirect(url_for('index'))
 
