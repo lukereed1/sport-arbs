@@ -33,7 +33,7 @@
             </tbody>
         </table>
         {% endif %}
-    <form action="{{ url_for('scrape_upcoming_games') }}" method="post">
+    <form action="{{ url_for('scrape_sport_markets', sport=title) }}" method="post">
         <button type="submit">Get {{ title }} Markets</button>
     </form>
 {% endblock %}

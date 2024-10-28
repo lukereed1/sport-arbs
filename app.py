@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from flask import Flask, render_template, url_for, redirect, request
+from flask import Flask, render_template, url_for, redirect, request, abort
 from db.db import DB
 from scrapers.sportsbet_scraper import SportsbetScraper
 from scrapers.neds_scraper import NedsScraper
@@ -8,7 +8,7 @@ from scrapers.games_scraper import GamesScraper
 
 app = Flask(__name__)
 scrapers = [SportsbetScraper(), NedsScraper()]
-
+sports = ["NFL", "NBA"]
 
 def init_db():
     if os.path.exists("./db/odds.db"):
@@ -34,6 +34,8 @@ def index():
 def sport():
     db = DB()
     title = request.args.get("sport")
+    if title not in sports:
+        abort(404)
     sport_id = request.args.get("id")
     markets = db.get_all_markets(sport_id)
     return render_template("sport.html", markets=markets, title=title)
@@ -48,6 +50,21 @@ def scrape_upcoming_games():
         scraper.scrape_nfl_h2h()
 
     return redirect(url_for('index'))
+
+
+@app.route("/scrape_markets", methods=["POST"])
+def scrape_sport_markets():
+    sport = request.args.get("sport")
+    sport_id = None
+    if sport == "NFL":
+        for scraper in scrapers:
+            scraper.scrape_nfl_h2h()
+        sport_id = 1
+    elif sport == "NBA":
+        sport_id = 2
+    else:
+        abort(404)
+    return redirect(url_for('sport', sport=sport, id=sport_id))
 
 
 if __name__ == "__main__":

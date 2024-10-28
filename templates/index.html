@@ -25,4 +25,7 @@
                 {% endfor %}
             </tbody>
         </table>
+    <form action="{{ url_for('scrape_upcoming_games')}}" method="post">
+        <button type="submit">Scrape all Upcoming</button>
+    </form>
 {% endblock %}
