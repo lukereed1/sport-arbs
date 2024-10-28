@@ -2,26 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %}- FlaskApp</title>
+    <title>{% block title %} {% endblock %}- arbs</title>
     <style>
+        .title {
+            display: flex;
+            justify-content: center;
+            font-size: 5em;
+            text-align" center;
+            text-decoration: none;
+            color: black;
+        }
+
+        .title:visited,
+        .title:link,
+        .title:hover,
+        .title:active {
+            text-decoration: none;
+            color: black;
+        }
         .post {
             padding: 10px;
             margin: 5px;
             background-color: #f3f3f3
         }
 
-        nav a {
+        .nav-item {
             color: #d64161;
-            font-size: 3em;
+            font-size: 2em;
             margin-left: 50px;
             text-decoration: none;
+        }
+
+        .nav-item-active {
+            color: blue;
+            font-size: 2em;
+            margin-left: 50px;
+            text-decoration: none;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+            font-size: 1.2em;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f3f3f3;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
 <body>
+    <a class="title" href="{{ url_for('index') }}">arbs.</a>
     <nav>
-        <a href="{{ url_for('index') }}">FlaskApp</a>
-        <a href="#">About</a>
+        <a class="nav-item" href="{{ url_for('sport', sport='NFL', id=1) }}">NFL</a>
+        <a class="nav-item" href="{{ url_for('sport', sport='NBA', id=2) }}">NBA</a>
     </nav>
     <hr>
     <div class="content">

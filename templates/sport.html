@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} {{ title }} {% endblock %}</h1>
+        {% if markets is not none %}
+        <table>
+            <thead>
+            <tr>
+                <th>Bookmaker</th>
+                <th>Market</th>
+                <th>Game Date</th>
+                <th>Game Time</th>
+                <th>Outcome 1</th>
+                <th>Odds 1</th>
+                <th>Outcome 2</th>
+                <th>Odds 2</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                {% for market in markets %}
+                <tr>
+                    <td>{{ market['bookmaker'] }}</td>
+                    <td>{{ market['market'] }}</td>
+                    <td>{{ market['game_date'] }}</td>
+                    <td>{{ market['game_time'] }}</td>
+                    <td>{{ market['option_1'] }}</td>
+                    <td>{{ market['option_1_odds'] }}</td>
+                    <td>{{ market['option_2'] }}</td>
+                    <td>{{ market['option_2_odds'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    <form action="{{ url_for('scrape_upcoming_games') }}" method="post">
+        <button type="submit">Get {{ title }} Markets</button>
+    </form>
+{% endblock %}

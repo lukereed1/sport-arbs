@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
 import requests
 from urllib.error import HTTPError
 from pyppeteer import launch
@@ -27,7 +27,6 @@ async def get_soup_pyppeteer(url, strainer):
     await page.setViewport({"width": 1920, "height": 1080})
     try:
         await page.goto(url)
-        # await page.waitForSelector('.sport-event-card')  # Wait for a specific element
         content = await page.content()
         soup = BeautifulSoup(content, "lxml", parse_only=strainer)
         return soup

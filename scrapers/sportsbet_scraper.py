@@ -9,6 +9,7 @@ class SportsbetScraper(BookieScraper):
         self.NFL_URL = "https://www.sportsbet.com.au/betting/american-football/nfl"
 
     def scrape_nfl_h2h(self):
+        print("Scraping NFL H2H Odds for Sportsbet")
         games = self.db.get_upcoming_games(1)
         strainer = SoupStrainer("div", attrs={"data-automation-id": "competition-matches-container"})
         soup = get_soup(self.NFL_URL, strainer)

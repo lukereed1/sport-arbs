@@ -54,14 +54,15 @@ class DB:
         finally:
             conn.close()
 
-    def get_all_markets(self):
+    def get_all_markets(self, sport_id):
         conn = self.get_db_connection()
         try:
             available_markets = conn.execute("SELECT * FROM game_markets "
                                              "JOIN games ON game_markets.game_id = games.id "
                                              "JOIN sports ON games.sport_id = sports.id "
                                              "JOIN bookmakers ON game_markets.bookmaker_id = bookmakers.id "
-                                             "JOIN markets ON game_markets.market_id = markets.id").fetchall()
+                                             "JOIN markets ON game_markets.market_id = markets.id "
+                                             "WHERE sport_id = ?", (sport_id,)).fetchall()
             return available_markets
         except sqlite3.OperationalError as e:
             print(f"Problem getting all markets\nError: {e}")

@@ -16,7 +16,7 @@ class NedsScraper(BookieScraper):
         return date.strftime("%Y-%m-%d")
 
     def scrape_nfl_h2h(self):
-        print("Getting to neds nfl scraper")
+        print("Scraping NFL H2H Odds for Neds")
         games = self.db.get_upcoming_games(1)
         strainer = SoupStrainer("div", attrs={"class": "events-wrapper__row-wrapper"})
         soup = asyncio.run(get_soup_pyppeteer(self.NFL_URL, strainer))
@@ -34,7 +34,7 @@ class NedsScraper(BookieScraper):
             for game in games:
                 if game['game_date'] != self.date_format(date):
                     continue
-                #
+
                 curr_date_games_list = container.find_all("div", class_="sport-event-card")
                 if not curr_date_games_list:
                     continue

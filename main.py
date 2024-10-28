@@ -57,68 +57,7 @@ async def scrape_with_pyppeteer(url):
 
 
 def scrape_nfl_h2h():
-    db = DB()
-    games = db.get_upcoming_games(1)
-    url = "https://www.neds.com.au/sports/american-football/nfl"
-    strainer = SoupStrainer("div", attrs={"class": "events-wrapper__row-wrapper"})
-    soup = asyncio.run(get_soup_pyppeteer(url, strainer))
-    game_containers = soup.find_all("div", class_="sport-events__date-group")
-    if not game_containers:
-        return
 
-    for container in game_containers:
-        date = container.find("span", class_="sports-date-title__text").get_text()
-        if date is None:
-            continue
-
-        for game in games:
-            # print(f"stored db date: {game['game_date']} | found date: {date}")
-            if game['game_date'] != date_format(date):
-                continue
-            #
-            curr_date_games_list = container.find_all("div", class_="sport-event-card")
-            if not curr_date_games_list:
-                continue
-
-            for li_game in curr_date_games_list:
-                teams = li_game.find_all("div", class_="price-button-name")
-                if not teams:
-                    continue
-                home = teams[0].get_text()
-                away = teams[1].get_text()
-                if home is None or away is None:
-                    continue
-
-                odds = li_game.find_all("div", class_="price-button-odds-price")
-                home_odds = float(odds[0].get_text())
-                away_odds = float(odds[1].get_text())
-                if home_odds is None or away_odds is None:
-                    continue
-
-                # book = scrapers.SportsbetScraper()
-                # book.upd
-
-                if home == game['home_team']:
-                    if away == game['away_team']:
-                        db = DB()
-                        existing_game_market = db.check_game_market_exists(game['id'], 2, 1)
-
-                        if existing_game_market is not None:
-                            existing_home_odds = existing_game_market['option_1_odds']
-                            existing_away_odds = existing_game_market['option_2_odds']
-                            if existing_home_odds != home_odds or existing_away_odds != away_odds:
-                                db.update_game_market_odds(existing_game_market['id'], home_odds, away_odds)
-                        else:
-                            game_market = {
-                                "id": game['id'],
-                                "bookmaker_id": 2,
-                                "market_id": 1,
-                                "opt_1": home,
-                                "opt_1_odds": home_odds,
-                                "opt_2": away,
-                                "opt_2_odds": away_odds
-                            }
-                            db.insert_game_market(game_market)
 
 
 
