@@ -5,10 +5,12 @@ from db.db import DB
 from scrapers.sportsbet_scraper import SportsbetScraper
 from scrapers.neds_scraper import NedsScraper
 from scrapers.games_scraper import GamesScraper
+from scrapers.tab_scraper import TabScraper
 
 app = Flask(__name__)
-scrapers = [SportsbetScraper(), NedsScraper()]
+scrapers = [SportsbetScraper(), NedsScraper(), TabScraper()]
 sports = ["NFL", "NBA"]
+
 
 def init_db():
     if os.path.exists("./db/odds.db"):

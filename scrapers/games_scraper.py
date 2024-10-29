@@ -7,7 +7,8 @@ from db.db import DB
 
 class GamesScraper:
     def __init__(self):
-        self.NFL_URL = "https://www.espn.com.au/nfl/schedule"
+        self.NFL_URL = "https://www.espn.com.au/nfl/schedule/_/week/9/year/2024/seasontype/2"
+    # scrape following week eventually too
 
     def get_nfl_games(self):
         strainer = SoupStrainer("div", attrs={"class": "Wrapper Card__Content overflow-visible"})
@@ -28,6 +29,8 @@ class GamesScraper:
                 # Gets time of games and converts to 24hr format
                 time = game.find("td", class_="date__col")
                 if time is not None:
+                    if time.get_text().strip() == "LIVE":
+                        continue
                     time = self.convert_to_24hr(time.get_text())
                 else:
                     continue  # Don't get data if games completed
@@ -54,7 +57,9 @@ class GamesScraper:
     @staticmethod
     def convert_date(date):
         arr = date.split(" ")
-        return f"{arr[3]}-{datetime.strptime(arr[1], '%B').month}-{arr[2].replace(',', '')}"
+        month = str(datetime.strptime(arr[1], '%B').month).zfill(2)
+        day = arr[2].replace(',', '').zfill(2)
+        return f"{arr[3]}-{month}-{day}"
 
     @staticmethod
     def convert_to_24hr(time):

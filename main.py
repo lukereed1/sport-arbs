@@ -44,44 +44,34 @@ def test():
     soup = asyncio.run(get_soup_pyppeteer(url, strainer))
     db = DB()
     stored_games = db.get_upcoming_games(1)
+
     games_list = soup.find_all("div", class_="template-item")
+
     if not games_list:
         return
 
     for li_game in games_list:
-        date = li_game.find("li", {"data-test": "close-time"}).get_text()
-        if date is None:
-            continue
-
-        match_title = li_game.find("span", {"class": "match-name-text"}).get_text()
-
-        if match_title is None:
-            continue
-        home, away = match_title.split(" v ")
-
         try:
+            date = li_game.find("li", {"data-test": "close-time"}).get_text()
+            match_title = li_game.find("span", {"class": "match-name-text"}).get_text()
+            home, away = match_title.split(" v ")
             home = tab_mapping(home.lower().strip())
             away = tab_mapping(away.lower().strip())
-        except KeyError as ke:
-            print(f"Problem getting a team\nError: {ke}")
 
-        h2h_span = li_game.find_all("span", {"data-content": "Head To Head"})
-        if not h2h_span:
-            continue
-
-        home_odds = h2h_span[0].parent.next_sibling.get_text()
-        away_odds = h2h_span[1].parent.next_sibling.get_text()
-
-        if home_odds is None or away_odds is None:
+            h2h_span = li_game.find_all("span", {"data-content": "Head To Head"})
+            home_odds = h2h_span[0].parent.next_sibling.get_text()
+            away_odds = h2h_span[1].parent.next_sibling.get_text()
+        except (KeyError, AttributeError, IndexError) as e:
+            print(f"Problem getting game data - Game might be live\nError: {e}")
             continue
 
         for game in stored_games:
+            print(date_format(date))
             if date_format(date) != game['game_date']:
                 continue
 
             if home == game['home_team']:
                 if away == game['away_team']:
-                    print("GAME IN DB")
                     db = DB()
                     # Gets existing game market if exists for SB H2H
                     existing_game_market = db.check_game_market_exists(game['id'], 3, 1)
@@ -108,5 +98,6 @@ def test():
 def date_format(date_string):
     date = datetime.strptime(f"{datetime.now().year} {date_string}", "%Y %a %d %b %H:%M")
     return date.strftime("%Y-%m-%d")
+
 
 test()
