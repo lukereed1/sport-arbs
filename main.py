@@ -55,26 +55,32 @@ def test():
         return
 
     for li_game in games_list:
+        date = ""
         try:
             date = li_game.find("div", class_="f1vavtkk").get_text()
             odds_boxes = li_game.find_all("span", class_="f11v6oas f1xlhiok")
-
             if len(odds_boxes) != 6:
                 continue
             h2h_odds = [box.get_text() for box in odds_boxes if box.find_previous_sibling() is None]
             team_names = li_game.find_all("div", class_="fddsvlq")
-
+            home_odds = h2h_odds[1]
+            away_odds = h2h_odds[0]
             home = team_names[1].get_text()
             away = team_names[0].get_text()
 
-            print("home: " + home)
-            print("away: " + away)
+            print("home: " + home + "odds: " + home_odds)
+            print("away: " + away + "odds: " + away_odds)
 
         except (IndexError, AttributeError) as e:
             print(f"Problem getting data for an NFL game on Pointsbet - Game might be live\nError: {e}")
 
+        for game in stored_games:
+            if date_format(date) != game["game_date"]:
+                continue
+            db = DB()
 
-def convert_date(date_string):
+
+def date_format(date_string):
     date = date_string.replace("st", "").replace("nd", "").replace("rd", "").replace("th", "")
     date = f"{datetime.now().year} {date}"
     date = datetime.strptime(date, '%Y %a %d %b, %I:%M%p')

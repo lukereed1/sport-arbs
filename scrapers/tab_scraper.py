@@ -40,32 +40,9 @@ class TabScraper(BookieScraper):
                 continue
 
             for game in stored_games:
-                if self.date_format(date) != game['game_date']:
+                if self.date_format(date) != game["game_date"]:
                     continue
                 self.update_h2h_market(home, away, game, 3, home_odds, away_odds)
-                #
-                # if home == game['home_team']:
-                #     if away == game['away_team']:
-                #         # Gets existing game market if exists for SB H2H
-                #         existing_game_market = self.db.check_game_market_exists(game['id'], 3, 1)
-                #
-                #         # if game market exists, checks odds to see if they require updating
-                #         if existing_game_market is not None:
-                #             existing_home_odds = existing_game_market['option_1_odds']
-                #             existing_away_odds = existing_game_market['option_2_odds']
-                #             if existing_home_odds != home_odds or existing_away_odds != away_odds:
-                #                 self.db.update_game_market_odds(existing_game_market['id'], home_odds, away_odds)
-                #         else:
-                #             game_market = {
-                #                 "id": game['id'],
-                #                 "bookmaker_id": 3,
-                #                 "market_id": 1,
-                #                 "opt_1": home,
-                #                 "opt_1_odds": home_odds,
-                #                 "opt_2": away,
-                #                 "opt_2_odds": away_odds
-                #             }
-                #             self.db.insert_game_market(game_market)
 
     @staticmethod
     def date_format(date_string):
