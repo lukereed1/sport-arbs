@@ -10,7 +10,7 @@ from scrapers.tab_scraper import TabScraper
 app = Flask(__name__)
 scrapers = [SportsbetScraper(), NedsScraper(), TabScraper()]
 sports = ["NFL", "NBA"]
-
+#
 
 def init_db():
     if os.path.exists("./db/odds.db"):

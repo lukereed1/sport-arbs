@@ -17,8 +17,11 @@ class TabScraper(BookieScraper):
         strainer = SoupStrainer("div", class_="customised-template")
         soup = asyncio.run(get_soup_pyppeteer(self.NFL_URL, strainer))
         stored_games = self.db.get_upcoming_games(1)
-        games_list = soup.find_all("div", class_="template-item")
-        if not games_list:
+
+        try:
+            games_list = soup.find_all("div", class_="template-item")
+        except AttributeError as ae:
+            print(f"Problem finding games\nError: {ae}")
             return
 
         for li_game in games_list:
@@ -39,8 +42,7 @@ class TabScraper(BookieScraper):
             for game in stored_games:
                 if self.date_format(date) != game['game_date']:
                     continue
-
-                self.update_db_h2h_market(home, away, game, 3, home_odds, away_odds)
+                self.update_h2h_market(home, away, game, 3, home_odds, away_odds)
                 #
                 # if home == game['home_team']:
                 #     if away == game['away_team']:

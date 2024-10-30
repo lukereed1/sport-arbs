@@ -3,6 +3,8 @@ import requests
 from urllib.error import HTTPError
 from pyppeteer import launch
 from pyppeteer.errors import PageError
+from playwright.async_api import async_playwright
+from playwright.sync_api import sync_playwright
 
 
 def get_soup(url, strainer):
@@ -19,13 +21,16 @@ def get_soup(url, strainer):
 
 # use when site has loading screens
 async def get_soup_pyppeteer(url, strainer):
-    browser = await launch(headless=False,
+    browser = await launch(headless=True,
                            handleSIGINT=False,
                            handleSIGTERM=False,
                            handleSIGHUP=False)
     page = await browser.newPage()
+
     await page.setViewport({"width": 1920, "height": 1080})
     try:
+        ua = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+        await page.setUserAgent(ua)
         await page.goto(url)
         content = await page.content()
         soup = BeautifulSoup(content, "lxml", parse_only=strainer)
@@ -38,3 +43,37 @@ async def get_soup_pyppeteer(url, strainer):
         await browser.close()
 
 
+# async def get_soup_playwright_async(url):
+#     async with async_playwright() as p:
+#         browser = await p.chromium.launch(headless=True)
+#         ua = (
+#             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+#         )
+#         page = await browser.new_page(user_agent=ua)
+#
+#         try:
+#             await page.goto(url)
+#             content = await page.content()
+#             soup = BeautifulSoup(content, "html.parser")
+#             print(soup)
+#             return soup
+#         except Exception as e:
+#             print(f"Error: {e}")
+#         finally:
+#             await browser.close()
+
+
+def get_soup_playwright(url, strainer):
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        ua = (
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+        )
+        page = browser.new_page(user_agent=ua)
+        page.goto(url)
+        html = page.content()
+        soup = BeautifulSoup(html, "lxml", parse_only=strainer)
+        return soup
+
+
+# get_playwright("https://www.tab.com.au/sports/betting/American%20Football/competitions/NFL")

@@ -11,7 +11,7 @@ class BookieScraper(ABC):
     def scrape_nfl_h2h(self):
         pass
 
-    def update_db_h2h_market(self, home, away, game, bookmaker_id, home_odds, away_odds):
+    def update_h2h_market(self, home, away, game, bookmaker_id, home_odds, away_odds):
         if home == game['home_team']:
             if away == game['away_team']:
                 # Gets existing game market if exists for SB H2H

@@ -1,6 +1,6 @@
 import asyncio
 from datetime import datetime
-from util import get_soup_pyppeteer
+from util import get_soup_pyppeteer, get_soup_playwright
 from scrapers.bookie_scraper import BookieScraper
 from bs4 import SoupStrainer
 
@@ -19,9 +19,11 @@ class NedsScraper(BookieScraper):
         print("Scraping NFL H2H Odds for Neds")
         games = self.db.get_upcoming_games(1)
         strainer = SoupStrainer("div", attrs={"class": "events-wrapper__row-wrapper"})
-        soup = asyncio.run(get_soup_pyppeteer(self.NFL_URL, strainer))
-        game_containers = soup.find_all("div", class_="sport-events__date-group")
-        if not game_containers:
+        soup = get_soup_playwright(self.NFL_URL, strainer)
+        try:
+            game_containers = soup.find_all("div", class_="sport-events__date-group")
+        except AttributeError as ae:
+            print(f"Problem finding games\nError: {ae}")
             return
 
         for container in game_containers:
@@ -42,6 +44,6 @@ class NedsScraper(BookieScraper):
                         home_odds = float(odds[0].get_text())
                         away_odds = float(odds[1].get_text())
 
-                        self.update_db_h2h_market(home, away, game, 2, home_odds, away_odds)
+                        self.update_h2h_market(home, away, game, 2, home_odds, away_odds)
                     except (AttributeError, IndexError) as e:
                         print(f"Problem getting data for an NFL game on Neds - Game might be live\nError: {e}")
