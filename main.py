@@ -38,53 +38,39 @@ def get_soup_test(url):
 
 
 def test():
-    print("Scraping NFL H2H Odds for Pointsbet")
+    print("Scraping NFL H2H Odds for Boombet")
     db = DB()
     stored_games = db.get_upcoming_games(1)
-    strainer = SoupStrainer("div", attrs={"class": "fqk2zjd"})
-    url = "https://pointsbet.com.au/sports/american-football/NFL"
+    strainer = SoupStrainer("div", attrs={"class": "listItemsWrapper"})
+    url = "https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL"
     soup = get_soup_playwright(url, strainer)
-    # soup = asyncio.run(get_soup_playwright(url, strainer))
-    # soup = loop.run_until_complete(get_soup_playwright(url))
-    # loop.close()
 
     try:
-        games_list = soup.find_all("div", {"data-test": "event"})
+        games_list = soup.find_all("div", class_="sc-eFRbCa kVgTIN")
     except AttributeError as ae:
         print(f"Problem finding games\nError: {ae}")
         return
 
     for li_game in games_list:
-        date = ""
         try:
-            date = li_game.find("div", class_="f1vavtkk").get_text()
-            odds_boxes = li_game.find_all("span", class_="f11v6oas f1xlhiok")
-            if len(odds_boxes) != 6:
-                continue
-            h2h_odds = [box.get_text() for box in odds_boxes if box.find_previous_sibling() is None]
-            team_names = li_game.find_all("div", class_="fddsvlq")
-            home_odds = h2h_odds[1]
-            away_odds = h2h_odds[0]
-            home = team_names[1].get_text()
-            away = team_names[0].get_text()
+            date = date_format(li_game.find("span", class_="matchDate").get_text())
+            teams = li_game.find_all("span", class_="market-title")
+            h2h_odds_element = li_game.find(lambda tag: tag.name == "span" and "H2H" in tag.get_text())
+            home = teams[0].get_text()
+            away = teams[1].get_text()
+            home_odds = h2h_odds_element.next_sibling.get_text()
+            away_odds = h2h_odds_element.next_sibling.next_sibling.get_text()
 
-            print("home: " + home + "odds: " + home_odds)
-            print("away: " + away + "odds: " + away_odds)
+            # print(f"home: {home} odds: {home_odds}")
+            # print(f"away: {away} odds: {away_odds}")
 
         except (IndexError, AttributeError) as e:
-            print(f"Problem getting data for an NFL game on Pointsbet - Game might be live\nError: {e}")
-
-        for game in stored_games:
-            if date_format(date) != game["game_date"]:
-                continue
-            db = DB()
+            print(f"Problem getting data for an NFL game on Boombet - Game might be live\nError: {e}")
+            continue
 
 
 def date_format(date_string):
-    date = date_string.replace("st", "").replace("nd", "").replace("rd", "").replace("th", "")
-    date = f"{datetime.now().year} {date}"
-    date = datetime.strptime(date, '%Y %a %d %b, %I:%M%p')
-    return date.strftime('%Y-%m-%d')
-
+    date_object = datetime.strptime(date_string, "%a, %b %d %I:%M %p")
+    return date_object.strftime(f"{datetime.now().year}-%m-%d")
 
 test()

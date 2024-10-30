@@ -2,6 +2,7 @@ import os
 import sqlite3
 from flask import Flask, render_template, url_for, redirect, request, abort
 from db.db import DB
+from scrapers.boombet_scraper import BoombetScraper
 from scrapers.pointsbet_scraper import PointsbetScraper
 from scrapers.sportsbet_scraper import SportsbetScraper
 from scrapers.neds_scraper import NedsScraper
@@ -9,9 +10,12 @@ from scrapers.games_scraper import GamesScraper
 from scrapers.tab_scraper import TabScraper
 
 app = Flask(__name__)
-scrapers = [PointsbetScraper()]
+
+
+scrapers = [BoombetScraper()]
 sports = ["NFL", "NBA"]
-# SportsbetScraper(), NedsScraper(), TabScraper(),
+# SportsbetScraper(), NedsScraper(), TabScraper(), PointsbetScraper(),
+
 
 def init_db():
     if os.path.exists("./db/odds.db"):

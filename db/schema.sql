@@ -58,6 +58,9 @@ INSERT INTO bookmakers(bookmaker) VALUES ('Sportsbet');
 INSERT INTO bookmakers(bookmaker) VALUES ('Neds');
 INSERT INTO bookmakers(bookmaker) VALUES ('TAB');
 INSERT INTO bookmakers(bookmaker) VALUES ('Pointsbet');
+INSERT INTO bookmakers(bookmaker) VALUES ('Boombet');
+INSERT INTO bookmakers(bookmaker) VALUES ('BetDeluxe');
+INSERT INTO bookmakers(bookmaker) VALUES ('Bluebet');
 
 INSERT INTO markets(market) VALUES("H2H");
 INSERT INTO markets(market) VALUES("Line");

@@ -3,6 +3,7 @@ from util import get_soup_playwright
 from scrapers.bookie_scraper import BookieScraper
 from bs4 import SoupStrainer
 
+
 class PointsbetScraper(BookieScraper):
     def __init__(self):
         super().__init__()
@@ -37,9 +38,9 @@ class PointsbetScraper(BookieScraper):
                 continue
 
             for game in stored_games:
-                if self.date_format(date) != game["game_date"]:
-                    continue
-                self.update_h2h_market(home, away, game, 4, home_odds, away_odds)
+                if self.date_format(date) == game["game_date"]:
+                    self.update_h2h_market(home, away, game, 4, home_odds, away_odds)
+
 
     @staticmethod
     def date_format(date_string):
