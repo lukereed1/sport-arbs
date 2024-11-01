@@ -13,8 +13,8 @@ from scrapers.betr_scraper import BetrScraper
 app = Flask(__name__)
 
 sports = ["NFL", "NBA"]
-# scrapers = [PointsbetScraper()]
-scrapers = [PointsbetScraper(), SportsbetScraper(), NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
+scrapers = [PointsbetScraper(), SportsbetScraper()]
+# scrapers = [SportsbetScraper(), PointsbetScraper(),  NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
 
 
 def init_db():
@@ -55,8 +55,12 @@ def calculate_arbs(sport_id):
                     "team_2": inner["option_2"],
                     "odds_team_2": inner["option_2_odds"],
                     "arbitrage_sum": arb_sum,
-
+                    "profitable": True if arb_sum < 1 else False,
+                    "book_1_url": outer[f"url_{sport_id}"],
+                    "book_2_url": inner[f"url_{sport_id}"]
                 })
+                # print(outer[f"url_{sport_id}"])
+                # print(inner[f"url_{sport_id}"])
     all_games_with_arb_percent.sort(key=lambda item: item["arbitrage_sum"])
     return all_games_with_arb_percent
 
@@ -87,7 +91,8 @@ def sport():
 @app.route("/scrape_upcoming_games", methods=["POST"])
 def scrape_upcoming_games():
     scraper = GamesScraper()
-    scraper.get_upcoming_sport_schedule(2)
+    for i in range(len(sports)):
+        scraper.get_upcoming_sport_schedule(i + 1)
 
     return redirect(url_for('index'))
 

@@ -25,13 +25,15 @@
                     <td>{{ arb['date'] }}</td>
                     <td>{{ arb['time'] }}</td>
                     <td>{{ arb['sport'] }}</td>
-                    <td>{{ arb['book_1'] }}</td>
+                    <td><a href="{{ arb['book_1_url'] }}">{{ arb['book_1'] }}</a></td>
                     <td>{{ arb['team_1'] }}</td>
                     <td>{{ arb['odds_team_1'] }}</td>
-                    <td>{{ arb['book_2'] }}</td>
+                    <td><a href="{{ arb['book_2_url'] }}">{{ arb['book_2'] }}</a></td>
                     <td>{{ arb['team_2'] }}</td>
                     <td>{{ arb['odds_team_2'] }}</td>
-                    <td>{{ arb['arbitrage_sum'] }}</td>
+                     <td style="background-color: {{ 'lightgreen' if arb['profitable'] else 'lightcoral' }};">
+                        {{ arb['arbitrage_sum'] }}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

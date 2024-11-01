@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS games (
 
 CREATE TABLE IF NOT EXISTS bookmakers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    bookmaker TEXT NOT NULL
+    bookmaker TEXT NOT NULL,
+    url_1 TEXT NOT NULL
+--    url_2 TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS markets (
@@ -45,23 +47,23 @@ INSERT INTO sports (sport) VALUES ('NRL');
 INSERT INTO sports (sport) VALUES ('AFL');
 
 
-INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
-VALUES (1, "Team_A", "Team_B", "2024-10-10", "14:13:00");
+--INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
+--VALUES (1, "Team_A", "Team_B", "2024-10-10", "14:13:00");
+--
+--INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
+--VALUES (2, "Team_B", "Team_B", "2024-10-10", "16:13:00");
+--
+--INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
+--VALUES (1, "Team_C", "Team_B", "2024-10-10", "20:13:00");
 
-INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
-VALUES (2, "Team_B", "Team_B", "2024-10-10", "16:13:00");
-
-INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
-VALUES (1, "Team_C", "Team_B", "2024-10-10", "20:13:00");
-
-INSERT INTO bookmakers(bookmaker) VALUES ('Sportsbet');
-INSERT INTO bookmakers(bookmaker) VALUES ('Neds');
-INSERT INTO bookmakers(bookmaker) VALUES ('TAB');
-INSERT INTO bookmakers(bookmaker) VALUES ('Pointsbet');
-INSERT INTO bookmakers(bookmaker) VALUES ('Boombet');
-INSERT INTO bookmakers(bookmaker) VALUES ('Betr');
-INSERT INTO bookmakers(bookmaker) VALUES ('BetDeluxe');
-INSERT INTO bookmakers(bookmaker) VALUES ('Bluebet');
+INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Sportsbet', 'https://www.sportsbet.com.au/betting/american-football/nfl');
+INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Neds', 'https://www.neds.com.au/sports/american-football/nfl');
+INSERT INTO bookmakers(bookmaker, url_1) VALUES ('TAB', 'https://www.tab.com.au/sports/betting/American%20Football/competitions/NFL');
+INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Pointsbet', 'https://pointsbet.com.au/sports/american-football/NFL');
+INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Boombet', 'https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL');
+INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Betr', 'https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249');
+--INSERT INTO bookmakers(bookmaker) VALUES ('BetDeluxe');
+--INSERT INTO bookmakers(bookmaker) VALUES ('Bluebet');
 
 INSERT INTO markets(market) VALUES("H2H");
 INSERT INTO markets(market) VALUES("Line");

@@ -15,7 +15,6 @@ class GamesScraper:
 
     def get_upcoming_sport_schedule(self, sport_id):
         strainer = SoupStrainer("div", attrs={"class": "Wrapper Card__Content overflow-visible"})
-
         soup = get_soup(self.SPORT_URLS[sport_id], strainer)
         game_containers = soup.find_all(class_="ScheduleTables")
 
