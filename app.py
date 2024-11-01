@@ -13,7 +13,7 @@ from scrapers.betr_scraper import BetrScraper
 app = Flask(__name__)
 
 sports = ["NFL", "NBA"]
-# scrapers = [PointsbetScraper()]
+# scrapers = [SportsbetScraper()]
 scrapers = [PointsbetScraper(), SportsbetScraper(), NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
 
 
@@ -30,6 +30,37 @@ def init_db():
 init_db()
 
 
+def calculate_arbs(sport_id):
+    db = DB()
+    upcoming_games = db.get_upcoming_games(sport_id)
+    all_games_with_arb_percent = []
+    for game in upcoming_games:
+        markets = db.get_all_markets_by_game(game["id"])
+        for outer in markets:
+            outer_opt1_win_percentage = 1 / outer["option_1_odds"]
+            for inner in markets:
+                if outer["game_id"] == inner["game_id"] and outer["bookmaker"] == inner["bookmaker"]:
+                    continue
+                inner_opt2_win_percentage = 1 / outer["option_2_odds"]
+                arb_sum = round(outer_opt1_win_percentage + inner_opt2_win_percentage, 3)
+
+                all_games_with_arb_percent.append({
+                    "date": game["game_date"],
+                    "time": game["game_time"],
+                    "sport": outer["sport"],
+                    "book_1": outer["bookmaker"],
+                    "team_1": outer["option_1"],
+                    "odds_team_1": outer["option_1_odds"],
+                    "book_2": inner["bookmaker"],
+                    "team_2": inner["option_2"],
+                    "odds_team_2": inner["option_2_odds"],
+                    "arbitrage_sum": arb_sum,
+
+                })
+    all_games_with_arb_percent.sort(key=lambda item: item["arbitrage_sum"])
+    return all_games_with_arb_percent
+
+
 @app.route("/")
 def index():
     db = DB()
@@ -39,13 +70,17 @@ def index():
 
 @app.route("/sport")
 def sport():
-    db = DB()
+    # db = DB()
     title = request.args.get("sport")
     if title not in sports:
         abort(404)
     sport_id = request.args.get("id")
-    markets = db.get_all_markets(sport_id)
-    return render_template("sport.html", markets=markets, title=title)
+    arbs = calculate_arbs(sport_id)
+
+    return render_template("arb.html", arbs=arbs, title=title)
+
+    # markets = db.get_all_markets(sport_id)
+    # return render_template("sport.html", markets=markets, title=title)
 
 
 # make route for individual sports eventually, with a tab for each one on the website

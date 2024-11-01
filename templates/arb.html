@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} {{ title }} {% endblock %}</h1>
+        {% if arbs is not none %}
+        <table>
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Sport</th>
+                <th>Bookie 1</th>
+                <th>Home</th>
+                <th>Home Odds</th>
+                <th>Bookie 2</th>
+                <th>Away</th>
+                <th>Away Odds</th>
+                <th>Arb %</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                {% for arb in arbs %}
+                <tr>
+                    <td>{{ arb['date'] }}</td>
+                    <td>{{ arb['time'] }}</td>
+                    <td>{{ arb['sport'] }}</td>
+                    <td>{{ arb['book_1'] }}</td>
+                    <td>{{ arb['team_1'] }}</td>
+                    <td>{{ arb['odds_team_1'] }}</td>
+                    <td>{{ arb['book_2'] }}</td>
+                    <td>{{ arb['team_2'] }}</td>
+                    <td>{{ arb['odds_team_2'] }}</td>
+                    <td>{{ arb['arbitrage_sum'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    <form action="{{ url_for('scrape_sport_markets', sport=title) }}" method="post">
+        <button type="submit">Get {{ title }} Arbs</button>
+    </form>
+{% endblock %}

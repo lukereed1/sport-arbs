@@ -27,6 +27,7 @@ from pyppeteer import launch
 from util import get_soup_pyppeteer
 import re
 
+
 # Testing
 
 
@@ -75,49 +76,58 @@ async def get_soup_pyppeteer_test(url):
         await browser.close()
 
 
-
 def test():
-    print("Scraping NFL H2H Odds for Betr")
-    url = "https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249"
-    soup = asyncio.run(get_soup_playwright_async(url))
+    db = DB()
+    upcoming_games = db.get_upcoming_games(1)
+    all_games_with_arb_percent = []
+    for game in upcoming_games:
+        markets = db.get_all_markets_by_game(game["id"])
+        for outer in markets:
+            outer_opt1_win_percentage = 1 / outer["option_1_odds"]
+            for inner in markets:
+                if outer["game_id"] == inner["game_id"] and outer["bookmaker"] == inner["bookmaker"]:
+                    continue
+                inner_opt2_win_percentage = 1 / outer["option_2_odds"]
+                sum = round(outer_opt1_win_percentage + inner_opt2_win_percentage, 3)
 
-    try:
-        containers = soup.find_all("div", class_="MuiPaper-elevation1")
+                all_games_with_arb_percent.append({
+                    "date": game["game_date"],
+                    "time": game["game_time"],
+                    "sport": outer["sport"],
+                    "book_1": outer["bookmaker"],
+                    "team_1": outer["option_1"],
+                    "odds_team_1": outer["option_1_odds"],
+                    "book_2": inner["bookmaker"],
+                    "team_2": inner["option_2"],
+                    "odds_team_2": inner["option_2_odds"],
+                    "arbitrage_sum": sum,
 
-    except AttributeError as ae:
-        print(f"Problem finding games for Betr\nError: {ae}")
-        return
+                })
+    all_games_with_arb_percent.sort(key=lambda item: item["arbitrage_sum"])
+    return all_games_with_arb_percent
 
-    for li_game in containers:
-        team_and_odds_element = li_game.find_all("button", class_="MuiButton-disableElevation")
-        if not team_and_odds_element:
-            continue
-        teams = []
-        odds = []
-        for team_odds in team_and_odds_element:
-            team_and_odds = team_odds.get_text().strip()
-            match = re.match(r"(.+?)(\d+\.\d+)", team_and_odds)
-            if match:
-                team_name = match.group(1).strip()
-                odds_value = float(match.group(2).strip())
-                teams.append(team_name)
-                odds.append(odds_value)
-                # print(f"Team: {team_name}, Odds: {odds_value}")
-
-        home = teams[0]
-        away = teams[1]
-        home_odds = odds[0]
-        away_odds = odds[1]
-        print(f"Home Team: {home}, Odds: {home_odds}")
-        print(f"Away Team: {away}, Odds: {away_odds}")
-        print(" ")
-
-
-
+                # print("OUTER: ")
+                # print(f"Game Id: {outer['game_id']}")
+                # print(outer["bookmaker"])
+                # print(outer['option_1'])
+                # print(outer['option_1_odds'])
+                # print(outer['option_2'])
+                # print(outer['option_2_odds'])
+                # print(" ")
+                # print("INNER: ")
+                # print(f"Game Id: {inner['game_id']}")
+                # print(inner["bookmaker"])
+                # print(inner['option_1'])
+                # print(inner['option_1_odds'])
+                # print(inner['option_2'])
+                # print(inner['option_2_odds'])
+                # print("")
+                # print("")
 
 
 def date_format(date_string):
     date_object = datetime.strptime(date_string, "%a, %b %d %I:%M %p")
     return date_object.strftime(f"{datetime.now().year}-%m-%d")
+
 
 test()

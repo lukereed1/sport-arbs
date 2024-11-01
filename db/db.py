@@ -67,6 +67,19 @@ class DB:
         except sqlite3.OperationalError as e:
             print(f"Problem getting all markets\nError: {e}")
 
+    def get_all_markets_by_game(self, game_id):
+        conn = self.get_db_connection()
+        try:
+            markets = conn.execute("SELECT * FROM game_markets "
+                                   "JOIN games ON game_markets.game_id = games.id "
+                                   "JOIN sports ON games.sport_id = sports.id "
+                                   "JOIN bookmakers ON game_markets.bookmaker_id = bookmakers.id "
+                                   "JOIN markets ON game_markets.market_id = markets.id "
+                                   "WHERE game_id = ?", (game_id,)).fetchall()
+            return markets
+        except sqlite3.OperationalError as e:
+            print(f"Problem getting markets for game id: {game_id}\nError: {e}")
+
     def insert_game_market(self, game_market):
         conn = self.get_db_connection()
         cursor = conn.cursor()
@@ -88,7 +101,7 @@ class DB:
         try:
             game_market = conn.execute(
                 "SELECT * FROM game_markets WHERE game_id = ? AND bookmaker_id = ? AND market_id = ?"
-                , (game_id, bookmaker_id, market_id, )).fetchone()
+                , (game_id, bookmaker_id, market_id,)).fetchone()
             return game_market
         except sqlite3.OperationalError as e:
             print(f"Problem checking if game market exists\nError: {e}")
