@@ -19,7 +19,7 @@ class NedsScraper(BookieScraper):
         print("Scraping NFL H2H Odds for Neds")
         games = self.db.get_upcoming_games(1)
         strainer = SoupStrainer("div", attrs={"class": "events-wrapper__row-wrapper"})
-        soup = get_soup_playwright(self.NFL_URL, strainer)
+        soup = get_soup_playwright(self.NFL_URL)
 
         try:
             game_containers = soup.find_all("div", class_="sport-events__date-group")

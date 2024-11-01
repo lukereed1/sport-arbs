@@ -1,7 +1,7 @@
 import asyncio
 from datetime import datetime
 
-from team_names.NFLteams import tab_mapping
+from team_names.tab_team_map import tab_mapping
 from util import get_soup_pyppeteer, get_soup_playwright_async
 from scrapers.bookie_scraper import BookieScraper
 from bs4 import SoupStrainer

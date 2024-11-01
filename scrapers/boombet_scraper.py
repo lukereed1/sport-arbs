@@ -13,7 +13,7 @@ class BoombetScraper(BookieScraper):
         print("Scraping NFL H2H Odds for Boombet")
         stored_games = self.db.get_upcoming_games(1)
         strainer = SoupStrainer("div", attrs={"class": "listItemsWrapper"})
-        soup = get_soup_playwright(self.NFL_URL, strainer)
+        soup = get_soup_playwright(self.NFL_URL)
 
         try:
             games_list = soup.find_all("div", class_="sc-eFRbCa kVgTIN")

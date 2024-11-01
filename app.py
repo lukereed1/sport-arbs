@@ -13,7 +13,7 @@ from scrapers.betr_scraper import BetrScraper
 app = Flask(__name__)
 
 sports = ["NFL", "NBA"]
-# scrapers = [SportsbetScraper()]
+# scrapers = [PointsbetScraper()]
 scrapers = [PointsbetScraper(), SportsbetScraper(), NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
 
 
@@ -41,7 +41,7 @@ def calculate_arbs(sport_id):
             for inner in markets:
                 if outer["game_id"] == inner["game_id"] and outer["bookmaker"] == inner["bookmaker"]:
                     continue
-                inner_opt2_win_percentage = 1 / outer["option_2_odds"]
+                inner_opt2_win_percentage = 1 / inner["option_2_odds"]
                 arb_sum = round(outer_opt1_win_percentage + inner_opt2_win_percentage, 3)
 
                 all_games_with_arb_percent.append({
@@ -87,7 +87,7 @@ def sport():
 @app.route("/scrape_upcoming_games", methods=["POST"])
 def scrape_upcoming_games():
     scraper = GamesScraper()
-    scraper.get_nfl_games()
+    scraper.get_upcoming_sport_schedule(2)
 
     return redirect(url_for('index'))
 

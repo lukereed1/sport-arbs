@@ -21,7 +21,7 @@ from requests_html import HTMLSession
 # date = f"{arr[3]}-{datetime.strptime(arr[1], '%B').month}-{arr[2].replace(',', '')}"
 # print(date)
 #
-from team_names.NFLteams import tab_mapping
+from team_names.espn_team_map import tab_mapping
 import asyncio
 from pyppeteer import launch
 from util import get_soup_pyppeteer
@@ -77,53 +77,60 @@ async def get_soup_pyppeteer_test(url):
 
 
 def test():
-    db = DB()
-    upcoming_games = db.get_upcoming_games(1)
-    all_games_with_arb_percent = []
-    for game in upcoming_games:
-        markets = db.get_all_markets_by_game(game["id"])
-        for outer in markets:
-            outer_opt1_win_percentage = 1 / outer["option_1_odds"]
-            for inner in markets:
-                if outer["game_id"] == inner["game_id"] and outer["bookmaker"] == inner["bookmaker"]:
+    url = "https://www.espn.com.au/nba/schedule"
+    strainer = SoupStrainer("div", attrs={"class": "Wrapper Card__Content overflow-visible"})
+    soup = get_soup(url, strainer)
+    game_containers = soup.find_all(class_="ScheduleTables")
+
+    if not game_containers:
+        return
+
+    for container in game_containers:
+        # Gets date of games and converts to db format
+        try:
+            date = container.find("div", class_="Table__Title").get_text()
+        except AttributeError as ae:
+            print("Problem getting the data for some upcoming games")
+            continue
+
+        games = container.find_all("tr", class_="Table__TR Table__TR--sm Table__even")
+        for game in games:
+            # Gets time of games and converts to 24hr format
+            time = game.find("td", class_="date__col")
+            if time is not None:
+                if time.get_text().strip() == "LIVE":
                     continue
-                inner_opt2_win_percentage = 1 / outer["option_2_odds"]
-                sum = round(outer_opt1_win_percentage + inner_opt2_win_percentage, 3)
+                time = convert_to_24hr(time.get_text())
+            else:
+                continue  # Don't get data if games completed
 
-                all_games_with_arb_percent.append({
-                    "date": game["game_date"],
-                    "time": game["game_time"],
-                    "sport": outer["sport"],
-                    "book_1": outer["bookmaker"],
-                    "team_1": outer["option_1"],
-                    "odds_team_1": outer["option_1_odds"],
-                    "book_2": inner["bookmaker"],
-                    "team_2": inner["option_2"],
-                    "odds_team_2": inner["option_2_odds"],
-                    "arbitrage_sum": sum,
+            home_team = game.find("td", class_="colspan__col Table__TD").find("a", class_="AnchorLink")["href"]
+            if home_team is not None:
+                home_team = home_team.split("/")[6]
+            away_team = game.find("td", class_="events__col Table__TD").find("a", class_="AnchorLink")["href"]
+            if away_team is not None:
+                away_team = away_team.split("/")[6]
 
-                })
-    all_games_with_arb_percent.sort(key=lambda item: item["arbitrage_sum"])
-    return all_games_with_arb_percent
+            game = {
+                "sport": 2,
+                "home": home_team,
+                "away": away_team,
+                "date": date,
+                "time": time
+            }
 
-                # print("OUTER: ")
-                # print(f"Game Id: {outer['game_id']}")
-                # print(outer["bookmaker"])
-                # print(outer['option_1'])
-                # print(outer['option_1_odds'])
-                # print(outer['option_2'])
-                # print(outer['option_2_odds'])
-                # print(" ")
-                # print("INNER: ")
-                # print(f"Game Id: {inner['game_id']}")
-                # print(inner["bookmaker"])
-                # print(inner['option_1'])
-                # print(inner['option_1_odds'])
-                # print(inner['option_2'])
-                # print(inner['option_2_odds'])
-                # print("")
-                # print("")
+            db = DB()
+            if not db.check_game_exists(game):
+                db.insert_game(game)
 
+def convert_date(date):
+    arr = date.split(" ")
+    month = str(datetime.strptime(arr[1], '%B').month).zfill(2)
+    day = arr[2].replace(',', '').zfill(2)
+    return f"{arr[3]}-{month}-{day}"
+
+def convert_to_24hr(time):
+    return datetime.strptime(time, "%I:%M %p").strftime("%H:%M")
 
 def date_format(date_string):
     date_object = datetime.strptime(date_string, "%a, %b %d %I:%M %p")

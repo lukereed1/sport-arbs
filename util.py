@@ -20,7 +20,7 @@ def get_soup(url, strainer):
 
 
 # use when site has loading screens
-async def get_soup_pyppeteer(url, strainer):
+async def get_soup_pyppeteer(url):
     browser = await launch(headless=False,
                            handleSIGINT=False,
                            handleSIGTERM=False,
@@ -33,7 +33,7 @@ async def get_soup_pyppeteer(url, strainer):
         await page.setUserAgent(ua)
         await page.goto(url)
         content = await page.content()
-        soup = BeautifulSoup(content, "lxml", parse_only=strainer)
+        soup = BeautifulSoup(content, "lxml")
         return soup
     except PageError as pe:
         print(f"Page Error: {pe}")
@@ -62,7 +62,7 @@ async def get_soup_playwright_async(url):
             await browser.close()
 
 
-def get_soup_playwright(url, strainer):
+def get_soup_playwright(url):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         ua = (
@@ -71,7 +71,7 @@ def get_soup_playwright(url, strainer):
         page = browser.new_page(user_agent=ua)
         page.goto(url)
         html = page.content()
-        soup = BeautifulSoup(html, "lxml", parse_only=strainer)
+        soup = BeautifulSoup(html, "lxml")
         return soup
 
 

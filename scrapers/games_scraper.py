@@ -1,4 +1,4 @@
-from team_names.NFLteams import espn_mapping
+from team_names.espn_team_map import espn_mapping
 from util import get_soup
 from bs4 import SoupStrainer
 from datetime import datetime
@@ -7,12 +7,16 @@ from db.db import DB
 
 class GamesScraper:
     def __init__(self):
-        self.NFL_URL = "https://www.espn.com.au/nfl/schedule/_/week/9/year/2024/seasontype/2"
+        self.SPORT_URLS = {
+            1: "https://www.espn.com.au/nfl/schedule",
+            2: "https://www.espn.com.au/nba/schedule",
+        }
     # scrape following week eventually too
 
-    def get_nfl_games(self):
+    def get_upcoming_sport_schedule(self, sport_id):
         strainer = SoupStrainer("div", attrs={"class": "Wrapper Card__Content overflow-visible"})
-        soup = get_soup(self.NFL_URL, strainer)
+
+        soup = get_soup(self.SPORT_URLS[sport_id], strainer)
         game_containers = soup.find_all(class_="ScheduleTables")
 
         if not game_containers:
@@ -20,9 +24,12 @@ class GamesScraper:
 
         for container in game_containers:
             # Gets date of games and converts to db format
-            date = container.find("div", class_="Table__Title").get_text()
-            if date is not None:
+            try:
+                date = container.find("div", class_="Table__Title").get_text()
                 date = self.convert_date(date)
+            except AttributeError as ae:
+                print(f"Problem getting the data for some upcoming games\nError: {ae}")
+                continue
 
             games = container.find_all("tr", class_="Table__TR Table__TR--sm Table__even")
             for game in games:
@@ -43,9 +50,9 @@ class GamesScraper:
                     away_team = away_team.split("/")[6]
 
                 game = {
-                    "sport": 1,
-                    "home": espn_mapping(home_team),
-                    "away": espn_mapping(away_team),
+                    "sport": sport_id,
+                    "home": espn_mapping(home_team, sport_id),
+                    "away": espn_mapping(away_team, sport_id),
                     "date": date,
                     "time": time
                 }
