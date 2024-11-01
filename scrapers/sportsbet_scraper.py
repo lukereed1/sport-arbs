@@ -16,15 +16,18 @@ class SportsbetScraper(BookieScraper):
 
         try:
             game_containers = soup.find_all("div", class_="groupTitleContainerDesktop_fukjuk5 groupTitleExtra_f1r0fg9l")
+            if not game_containers:
+                print("Problem finding games for Sportsbet")
+                return
         except AttributeError as ae:
             print(f"Problem finding games\nError: {ae}")
             return
 
         for container in game_containers:
-            date = container.find("time").get('datetime')
+            # date = container.find("time").get('datetime')
             for game in games:
-                if game['game_date'] != date:
-                    continue
+                # if game['game_date'] != date:
+                #     continue
 
                 curr_date_games_list = container.next_sibling.find_all("li")
 

@@ -21,7 +21,7 @@ def get_soup(url, strainer):
 
 # use when site has loading screens
 async def get_soup_pyppeteer(url, strainer):
-    browser = await launch(headless=True,
+    browser = await launch(headless=False,
                            handleSIGINT=False,
                            handleSIGTERM=False,
                            handleSIGHUP=False)
@@ -43,29 +43,28 @@ async def get_soup_pyppeteer(url, strainer):
         await browser.close()
 
 
-# async def get_soup_playwright_async(url):
-#     async with async_playwright() as p:
-#         browser = await p.chromium.launch(headless=True)
-#         ua = (
-#             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
-#         )
-#         page = await browser.new_page(user_agent=ua)
-#
-#         try:
-#             await page.goto(url)
-#             content = await page.content()
-#             soup = BeautifulSoup(content, "html.parser")
-#             print(soup)
-#             return soup
-#         except Exception as e:
-#             print(f"Error: {e}")
-#         finally:
-#             await browser.close()
+async def get_soup_playwright_async(url):
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=False)
+        ua = (
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+        )
+        page = await browser.new_page(user_agent=ua)
+
+        try:
+            await page.goto(url)
+            content = await page.content()
+            soup = BeautifulSoup(content, "html.parser")
+            return soup
+        except Exception as e:
+            print(f"Error: {e}")
+        finally:
+            await browser.close()
 
 
 def get_soup_playwright(url, strainer):
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=False)
         ua = (
             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
         )

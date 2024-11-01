@@ -2,7 +2,7 @@ import asyncio
 from datetime import datetime
 
 from team_names.NFLteams import tab_mapping
-from util import get_soup_pyppeteer
+from util import get_soup_pyppeteer, get_soup_playwright_async
 from scrapers.bookie_scraper import BookieScraper
 from bs4 import SoupStrainer
 
@@ -15,18 +15,21 @@ class TabScraper(BookieScraper):
     def scrape_nfl_h2h(self):
         print("Scraping NFL H2H Odds for TAB")
         strainer = SoupStrainer("div", class_="customised-template")
-        soup = asyncio.run(get_soup_pyppeteer(self.NFL_URL, strainer))
+        soup = asyncio.run(get_soup_playwright_async(self.NFL_URL))
         stored_games = self.db.get_upcoming_games(1)
 
         try:
             games_list = soup.find_all("div", class_="template-item")
+            if not games_list:
+                print("Problem finding games for TAB")
+                return
         except AttributeError as ae:
-            print(f"Problem finding games\nError: {ae}")
+            print(f"Problem finding games for TAB\nError: {ae}")
             return
 
         for li_game in games_list:
             try:
-                date = li_game.find("li", {"data-test": "close-time"}).get_text()
+                # date = li_game.find("li", {"data-test": "close-time"}).get_text()
                 match_title = li_game.find("span", {"class": "match-name-text"}).get_text()
                 home, away = match_title.split(" v ")
                 home = tab_mapping(home.lower().strip())
@@ -40,7 +43,7 @@ class TabScraper(BookieScraper):
                 continue
 
             for game in stored_games:
-                if self.date_format(date) == game["game_date"]:
+                # if self.date_format(date) == game["game_date"]:
                     self.update_h2h_market(home, away, game, 3, home_odds, away_odds)
 
     @staticmethod

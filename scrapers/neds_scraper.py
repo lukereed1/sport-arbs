@@ -20,17 +20,21 @@ class NedsScraper(BookieScraper):
         games = self.db.get_upcoming_games(1)
         strainer = SoupStrainer("div", attrs={"class": "events-wrapper__row-wrapper"})
         soup = get_soup_playwright(self.NFL_URL, strainer)
+
         try:
             game_containers = soup.find_all("div", class_="sport-events__date-group")
+            if not game_containers:
+                print("Problem finding games for Neds")
+                return
         except AttributeError as ae:
             print(f"Problem finding games\nError: {ae}")
             return
 
         for container in game_containers:
-            date = container.find("span", class_="sports-date-title__text").get_text()
+            # date = container.find("span", class_="sports-date-title__text").get_text()
             for game in games:
-                if game['game_date'] != self.date_format(date):
-                    continue
+                # if game['game_date'] != self.date_format(date):
+                #     continue
 
                 curr_date_games_list = container.find_all("div", class_="sport-event-card")
 

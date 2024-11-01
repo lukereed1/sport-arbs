@@ -8,13 +8,13 @@ from scrapers.sportsbet_scraper import SportsbetScraper
 from scrapers.neds_scraper import NedsScraper
 from scrapers.games_scraper import GamesScraper
 from scrapers.tab_scraper import TabScraper
+from scrapers.betr_scraper import BetrScraper
 
 app = Flask(__name__)
 
-
-scrapers = [BoombetScraper()]
 sports = ["NFL", "NBA"]
-# SportsbetScraper(), NedsScraper(), TabScraper(), PointsbetScraper(),
+# scrapers = [PointsbetScraper()]
+scrapers = [PointsbetScraper(), SportsbetScraper(), NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
 
 
 def init_db():

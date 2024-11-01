@@ -17,13 +17,16 @@ class BoombetScraper(BookieScraper):
 
         try:
             games_list = soup.find_all("div", class_="sc-eFRbCa kVgTIN")
+            if not games_list:
+                print("Problem finding games for Boombet")
+                return
         except AttributeError as ae:
             print(f"Problem finding games\nError: {ae}")
             return
 
         for li_game in games_list:
             try:
-                date = li_game.find("span", class_="matchDate").get_text()
+                # date = li_game.find("span", class_="matchDate").get_text()
                 teams = li_game.find_all("span", class_="market-title")
                 h2h_odds_element = li_game.find(lambda tag: tag.name == "span" and "H2H" in tag.get_text())
                 home = teams[0].get_text()
@@ -36,8 +39,8 @@ class BoombetScraper(BookieScraper):
                 continue
 
             for game in stored_games:
-                if self.date_format(date) == game["game_date"]:
-                    self.update_h2h_market(home, away, game, 5, home_odds, away_odds)
+                # if self.date_format(date) == game["game_date"]:
+                self.update_h2h_market(home, away, game, 5, home_odds, away_odds)
 
     @staticmethod
     def date_format(date_string):
