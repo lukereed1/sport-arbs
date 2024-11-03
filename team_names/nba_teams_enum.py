@@ -14,7 +14,7 @@ class NBATeam(Enum):
     GOLDEN_STATE_WARRIORS = "Golden State Warriors"
     HOUSTON_ROCKETS = "Houston Rockets"
     INDIANA_PACERS = "Indiana Pacers"
-    LA_CLIPPERS = "LA Clippers"
+    LA_CLIPPERS = "Los Angeles Clippers"
     LOS_ANGELES_LAKERS = "Los Angeles Lakers"
     MEMPHIS_GRIZZLIES = "Memphis Grizzlies"
     MIAMI_HEAT = "Miami Heat"

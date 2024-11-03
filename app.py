@@ -13,8 +13,8 @@ from scrapers.betr_scraper import BetrScraper
 app = Flask(__name__)
 
 sports = ["NFL", "NBA"]
-scrapers = [PointsbetScraper(), SportsbetScraper()]
-# scrapers = [SportsbetScraper(), PointsbetScraper(),  NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
+# scrapers = [BetrScraper()]
+scrapers = [SportsbetScraper(), PointsbetScraper(),  NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
 
 
 def init_db():
@@ -69,22 +69,23 @@ def calculate_arbs(sport_id):
 def index():
     db = DB()
     games = db.get_all_games()
+    games.sort(key=lambda row: (row[4], row[5]))
     return render_template("index.html", games=games)
 
 
 @app.route("/sport")
 def sport():
-    # db = DB()
+    db = DB()
     title = request.args.get("sport")
     if title not in sports:
         abort(404)
     sport_id = request.args.get("id")
     arbs = calculate_arbs(sport_id)
 
-    return render_template("arb.html", arbs=arbs, title=title)
+    # return render_template("arb.html", arbs=arbs, title=title)
 
-    # markets = db.get_all_markets(sport_id)
-    # return render_template("sport.html", markets=markets, title=title)
+    markets = db.get_all_markets(sport_id)
+    return render_template("sport.html", markets=markets, title=title)
 
 
 # make route for individual sports eventually, with a tab for each one on the website
@@ -102,13 +103,14 @@ def scrape_sport_markets():
     sport = request.args.get("sport")
     sport_id = None
     if sport == "NFL":
-        for scraper in scrapers:
-            scraper.scrape_nfl_h2h()
         sport_id = 1
     elif sport == "NBA":
         sport_id = 2
     else:
         abort(404)
+
+    for scraper in scrapers:
+        scraper.scrape_h2h(sport_id)
     return redirect(url_for('sport', sport=sport, id=sport_id))
 
 

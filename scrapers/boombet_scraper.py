@@ -7,13 +7,16 @@ from bs4 import SoupStrainer
 class BoombetScraper(BookieScraper):
     def __init__(self):
         super().__init__()
-        self.NFL_URL = "https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL"
+        self.SPORT_URLS = {
+            1: "https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL",
+            2: "https://www.boombet.com.au/sport-menu/Sport/Basketball/NBA"
+        }
 
-    def scrape_nfl_h2h(self):
-        print("Scraping NFL H2H Odds for Boombet")
-        stored_games = self.db.get_upcoming_games(1)
+    def scrape_h2h(self, sport_id):
+        print(f"Scraping Sport: {sport_id} Odds for Boombet")
+        stored_games = self.db.get_upcoming_games(sport_id)
         strainer = SoupStrainer("div", attrs={"class": "listItemsWrapper"})
-        soup = get_soup_playwright(self.NFL_URL)
+        soup = get_soup_playwright(self.SPORT_URLS[sport_id])
 
         try:
             games_list = soup.find_all("div", class_="sc-eFRbCa kVgTIN")
@@ -35,7 +38,7 @@ class BoombetScraper(BookieScraper):
                 away_odds = h2h_odds_element.next_sibling.next_sibling.get_text()
 
             except (IndexError, AttributeError) as e:
-                print(f"Problem getting data for an NFL game on Boombet - Game might be live\nError: {e}")
+                print(f"Problem getting data for a game with sport id: {sport_id} on Boombet\nError: {e}")
                 continue
 
             for game in stored_games:

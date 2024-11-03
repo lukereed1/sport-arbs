@@ -8,13 +8,16 @@ from bs4 import SoupStrainer
 class PointsbetScraper(BookieScraper):
     def __init__(self):
         super().__init__()
-        self.NFL_URL = "https://pointsbet.com.au/sports/american-football/NFL"
+        self.SPORT_URLS = {
+            1: "https://pointsbet.com.au/sports/american-football/NFL",
+            2: "https://pointsbet.com.au/sports/basketball/NBA"
+        }
 
-    def scrape_nfl_h2h(self):
-        print("Scraping NFL H2H Odds for Pointsbet")
-        stored_games = self.db.get_upcoming_games(1)
+    def scrape_h2h(self, sport_id):
+        print(f"Scraping Sport: {sport_id} Odds for Pointsbet")
+        stored_games = self.db.get_upcoming_games(sport_id)
         # strainer = SoupStrainer("div", attrs={"class": "fqk2zjd"})
-        soup = asyncio.run(get_soup_playwright_async(self.NFL_URL))
+        soup = asyncio.run(get_soup_playwright_async(self.SPORT_URLS[sport_id]))
         # soup = get_soup_playwright(self.NFL_URL)
 
         try:
@@ -39,12 +42,12 @@ class PointsbetScraper(BookieScraper):
                 home = team_names[1].get_text()
                 away = team_names[0].get_text()
             except (IndexError, AttributeError) as e:
-                print(f"Problem getting data for an NFL game on Pointsbet - Game might be live\nError: {e}")
+                print(f"Problem getting data for a game with sport id: {sport_id} on Pointsbet\nError: {e}")
                 continue
 
             for game in stored_games:
                 # if self.date_format(date) == game["game_date"]:
-                    self.update_h2h_market(home, away, game, 4, home_odds, away_odds)
+                self.update_h2h_market(home, away, game, 4, home_odds, away_odds)
 
     @staticmethod
     def date_format(date_string):
@@ -57,4 +60,3 @@ class PointsbetScraper(BookieScraper):
             date = f"{datetime.now().year} {date}"
             date = datetime.strptime(date, '%Y %a %d %b, %I:%M%p')
             return date.strftime('%Y-%m-%d')
-

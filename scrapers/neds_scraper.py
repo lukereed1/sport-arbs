@@ -8,18 +8,21 @@ from bs4 import SoupStrainer
 class NedsScraper(BookieScraper):
     def __init__(self):
         super().__init__()
-        self.NFL_URL = "https://www.neds.com.au/sports/american-football/nfl"
+        self.SPORT_URLS = {
+            1: "https://www.neds.com.au/sports/american-football/nfl",
+            2: "https://www.neds.com.au/sports/basketball/usa/nba"
+        }
 
     @staticmethod
     def date_format(date_string):
         date = datetime.strptime(date_string.split(' ')[1], "%d/%m/%Y")
         return date.strftime("%Y-%m-%d")
 
-    def scrape_nfl_h2h(self):
-        print("Scraping NFL H2H Odds for Neds")
-        games = self.db.get_upcoming_games(1)
+    def scrape_h2h(self, sport_id):
+        print(f"Scraping Sport: {sport_id} Odds for Neds")
+        games = self.db.get_upcoming_games(sport_id)
         strainer = SoupStrainer("div", attrs={"class": "events-wrapper__row-wrapper"})
-        soup = get_soup_playwright(self.NFL_URL)
+        soup = get_soup_playwright(self.SPORT_URLS[sport_id])
 
         try:
             game_containers = soup.find_all("div", class_="sport-events__date-group")
@@ -50,4 +53,4 @@ class NedsScraper(BookieScraper):
 
                         self.update_h2h_market(home, away, game, 2, home_odds, away_odds)
                     except (AttributeError, IndexError) as e:
-                        print(f"Problem getting data for an NFL game on Neds - Game might be live\nError: {e}")
+                        print(f"Problem getting data for a game with sport id: {sport_id} on Neds\nError: {e}")

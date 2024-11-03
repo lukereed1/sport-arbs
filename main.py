@@ -21,7 +21,6 @@ from requests_html import HTMLSession
 # date = f"{arr[3]}-{datetime.strptime(arr[1], '%B').month}-{arr[2].replace(',', '')}"
 # print(date)
 #
-from team_names.espn_team_map import tab_mapping
 import asyncio
 from pyppeteer import launch
 from util import get_soup_pyppeteer
@@ -77,51 +76,52 @@ async def get_soup_pyppeteer_test(url):
 
 
 def test():
-    url = "https://www.espn.com.au/nba/schedule"
-    strainer = SoupStrainer("div", attrs={"class": "Wrapper Card__Content overflow-visible"})
-    soup = get_soup(url, strainer)
-    game_containers = soup.find_all(class_="ScheduleTables")
+    print("Scraping NFL H2H Odds for Sportsbet")
+    db = DB()
+    games = db.get_upcoming_games(2)
+    strainer = SoupStrainer("div", attrs={"data-automation-id": "competition-matches-container"})
+    soup = get_soup("https://www.sportsbet.com.au/betting/basketball-us/nba", strainer)
 
-    if not game_containers:
+    try:
+        game_containers = soup.find_all("div", class_="groupTitleContainerDesktop_fukjuk5 groupTitleExtra_f1r0fg9l")
+        if not game_containers:
+            print("Problem finding games for Sportsbet")
+            return
+    except AttributeError as ae:
+        print(f"Problem finding games\nError: {ae}")
         return
 
     for container in game_containers:
-        # Gets date of games and converts to db format
-        try:
-            date = container.find("div", class_="Table__Title").get_text()
-        except AttributeError as ae:
-            print("Problem getting the data for some upcoming games")
-            continue
-
-        games = container.find_all("tr", class_="Table__TR Table__TR--sm Table__even")
+        # date = container.find("time").get('datetime')
         for game in games:
-            # Gets time of games and converts to 24hr format
-            time = game.find("td", class_="date__col")
-            if time is not None:
-                if time.get_text().strip() == "LIVE":
-                    continue
-                time = convert_to_24hr(time.get_text())
-            else:
-                continue  # Don't get data if games completed
+            # if game['game_date'] != date:
+            #     continue
 
-            home_team = game.find("td", class_="colspan__col Table__TD").find("a", class_="AnchorLink")["href"]
-            if home_team is not None:
-                home_team = home_team.split("/")[6]
-            away_team = game.find("td", class_="events__col Table__TD").find("a", class_="AnchorLink")["href"]
-            if away_team is not None:
-                away_team = away_team.split("/")[6]
+            curr_date_games_list = container.next_sibling.find_all("li")
 
-            game = {
-                "sport": 2,
-                "home": home_team,
-                "away": away_team,
-                "date": date,
-                "time": time
-            }
+            for li_game in curr_date_games_list:
+                try:
+                    live_element = li_game.find("div", class_="live_fst4f0d")
+                    if live_element is not None:  # Skip live games
+                        continue
 
-            db = DB()
-            if not db.check_game_exists(game):
-                db.insert_game(game)
+                    away = li_game.find("div", {"data-automation-id": "participant-one"}).get_text()
+                    home = li_game.find("div", {"data-automation-id": "participant-two"}).get_text()
+
+                    odds = li_game.find_all("span", class_="size14_f7opyze bold_f1au7gae priceTextSize_frw9zm9")
+                    home_odds = float(odds[1].get_text())
+                    away_odds = float(odds[0].get_text())
+
+                    print(f"home: {home} home odds: {home_odds}")
+                    print(f"away: {away} away odds: {away_odds}")
+
+                    # self.update_h2h_market(home, away, game, 1, home_odds, away_odds)
+                except (AttributeError, IndexError) as e:
+                    print(f"Problem getting data for an NFL game on Sportsbet - Game might be live\nError: {e}")
+
+
+
+
 
 def convert_date(date):
     arr = date.split(" ")

@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS games (
 CREATE TABLE IF NOT EXISTS bookmakers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     bookmaker TEXT NOT NULL,
-    url_1 TEXT NOT NULL
---    url_2 TEXT NOT NULL
+    url_1 TEXT NOT NULL,
+    url_2 TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS markets (
@@ -56,12 +56,29 @@ INSERT INTO sports (sport) VALUES ('AFL');
 --INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
 --VALUES (1, "Team_C", "Team_B", "2024-10-10", "20:13:00");
 
-INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Sportsbet', 'https://www.sportsbet.com.au/betting/american-football/nfl');
-INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Neds', 'https://www.neds.com.au/sports/american-football/nfl');
-INSERT INTO bookmakers(bookmaker, url_1) VALUES ('TAB', 'https://www.tab.com.au/sports/betting/American%20Football/competitions/NFL');
-INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Pointsbet', 'https://pointsbet.com.au/sports/american-football/NFL');
-INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Boombet', 'https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL');
-INSERT INTO bookmakers(bookmaker, url_1) VALUES ('Betr', 'https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249');
+INSERT INTO bookmakers(bookmaker, url_1, url_2)
+VALUES ('Sportsbet', 'https://www.sportsbet.com.au/betting/american-football/nfl',
+        'https://www.sportsbet.com.au/betting/basketball-us/nba');
+
+INSERT INTO bookmakers(bookmaker, url_1, url_2)
+VALUES ('Neds', 'https://www.neds.com.au/sports/american-football/nfl',
+        'https://www.neds.com.au/sports/basketball/usa/nba');
+
+INSERT INTO bookmakers(bookmaker, url_1, url_2)
+VALUES ('TAB', 'https://www.tab.com.au/sports/betting/American%20Football/competitions/NFL',
+        'https://www.tab.com.au/sports/betting/Basketball/competitions/NBA');
+
+INSERT INTO bookmakers(bookmaker, url_1, url_2)
+VALUES ('Pointsbet', 'https://pointsbet.com.au/sports/american-football/NFL',
+        'https://pointsbet.com.au/sports/basketball/NBA');
+
+INSERT INTO bookmakers(bookmaker, url_1, url_2)
+VALUES ('Boombet', 'https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL',
+        'https://www.boombet.com.au/sport-menu/Sport/Basketball/NBA');
+
+INSERT INTO bookmakers(bookmaker, url_1, url_2)
+VALUES ('Betr', 'https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249',
+        'https://www.betr.com.au/sports/Basketball/107/United-States-of-America/NBA-Matches/39251');
 --INSERT INTO bookmakers(bookmaker) VALUES ('BetDeluxe');
 --INSERT INTO bookmakers(bookmaker) VALUES ('Bluebet');
 

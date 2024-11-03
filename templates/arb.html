@@ -8,13 +8,12 @@
             <tr>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Sport</th>
-                <th>Bookie 1</th>
                 <th>Home</th>
                 <th>Home Odds</th>
-                <th>Bookie 2</th>
+                <th>Bookie 1</th>
                 <th>Away</th>
                 <th>Away Odds</th>
+                <th>Bookie 2</th>
                 <th>Arb %</th>
             </tr>
             </thead>
@@ -24,13 +23,12 @@
                 <tr>
                     <td>{{ arb['date'] }}</td>
                     <td>{{ arb['time'] }}</td>
-                    <td>{{ arb['sport'] }}</td>
-                    <td><a href="{{ arb['book_1_url'] }}">{{ arb['book_1'] }}</a></td>
                     <td>{{ arb['team_1'] }}</td>
                     <td>{{ arb['odds_team_1'] }}</td>
-                    <td><a href="{{ arb['book_2_url'] }}">{{ arb['book_2'] }}</a></td>
+                    <td><a href="{{ arb['book_1_url'] }}">{{ arb['book_1'] }}</a></td>
                     <td>{{ arb['team_2'] }}</td>
                     <td>{{ arb['odds_team_2'] }}</td>
+                    <td><a href="{{ arb['book_2_url'] }}">{{ arb['book_2'] }}</a></td>
                      <td style="background-color: {{ 'lightgreen' if arb['profitable'] else 'lightcoral' }};">
                         {{ arb['arbitrage_sum'] }}
                     </td>

@@ -8,7 +8,7 @@ class BookieScraper(ABC):
         self.db = DB()
 
     @abstractmethod
-    def scrape_nfl_h2h(self):
+    def scrape_h2h(self, sport_id):
         pass
 
     def update_h2h_market(self, home, away, game, bookmaker_id, home_odds, away_odds):

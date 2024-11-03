@@ -9,13 +9,15 @@ import asyncio
 class BetrScraper(BookieScraper):
     def __init__(self):
         super().__init__()
-        self.NFL_URL = "https://www.betr.com.au/sports/American-Football/108"
+        self.SPORT_URLS = {
+            1: "https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249",
+            2: "https://www.betr.com.au/sports/Basketball/107/United-States-of-America/NBA-Matches/39251"
+        }
 
-    def scrape_nfl_h2h(self):
-        print("Scraping NFL H2H Odds for Betr")
-        stored_games = self.db.get_upcoming_games(1)
-        url = "https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249"
-        soup = asyncio.run(get_soup_playwright_async(url))
+    def scrape_h2h(self, sport_id):
+        print(f"Scraping Sport: {sport_id} Odds for Betr")
+        stored_games = self.db.get_upcoming_games(sport_id)
+        soup = asyncio.run(get_soup_playwright_async(self.SPORT_URLS[sport_id]))
 
         try:
             containers = soup.find_all("div", class_="MuiPaper-elevation1")
@@ -42,7 +44,7 @@ class BetrScraper(BookieScraper):
                         teams.append(team_name)
                         odds.append(odds_value)
             except (IndexError, AttributeError) as e:
-                print(f"Problem getting data for an NFL game on Betr - Game might be live\nError: {e}")
+                print(f"Problem getting data for a game with sport id: {sport_id} on Betr\nError: {e}")
                 continue
             home = teams[0]
             away = teams[1]

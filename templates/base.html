@@ -3,41 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %}- arbs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Change to the Google Font */
+        }
+
         .title {
             display: flex;
             justify-content: center;
             font-size: 5em;
             text-align" center;
-            text-decoration: none;
             color: black;
-        }
-
-        .title:visited,
-        .title:link,
-        .title:hover,
-        .title:active {
-            text-decoration: none;
-            color: black;
-        }
-        .post {
-            padding: 10px;
-            margin: 5px;
-            background-color: #f3f3f3
+            margin: 0;
+            margin-top: 30px;
         }
 
         .nav-item {
-            color: #d64161;
+            color: black;
             font-size: 2em;
             margin-left: 50px;
             text-decoration: none;
         }
 
-        .nav-item-active {
+        .nav-item:hover {
             color: blue;
-            font-size: 2em;
-            margin-left: 50px;
-            text-decoration: none;
+            text-decoration: underline;
         }
 
         table {
@@ -74,12 +65,13 @@
     </style>
 </head>
 <body>
-    <a class="title" href="{{ url_for('index') }}">arbs.</a>
+    <title class="title">arbs</title>
     <nav>
+        <a class="nav-item" href="{{ url_for('index') }}">Upcoming</a>
         <a class="nav-item" href="{{ url_for('sport', sport='NFL', id=1) }}">NFL</a>
         <a class="nav-item" href="{{ url_for('sport', sport='NBA', id=2) }}">NBA</a>
     </nav>
-    <hr>
+<!--    <hr>-->
     <div class="content">
         {% block content %} {% endblock %}
     </div>
