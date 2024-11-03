@@ -12,13 +12,17 @@ class TabScraper(BookieScraper):
         super().__init__()
         self.SPORT_URLS = {
             1: "https://www.tab.com.au/sports/betting/American%20Football/competitions/NFL",
-            2: "https://www.tab.com.au/sports/betting/Basketball/competitions/NBA"
+            2: "https://www.tab.com.au/sports/betting/Basketball/competitions/NBA",
+            # 3: "https://www.tab.com.au/sports/betting/Ice%20Hockey"
         }
 
     def scrape_h2h(self, sport_id):
         print(f"Scraping Sport: {sport_id} Odds for TAB")
         strainer = SoupStrainer("div", class_="customised-template")
-        soup = asyncio.run(get_soup_playwright_async(self.SPORT_URLS[sport_id]))
+        try:  # Skip function if bookie not compatible with current sport iteration
+            soup = asyncio.run(get_soup_playwright_async(self.SPORT_URLS[sport_id]))
+        except KeyError:
+            return
         stored_games = self.db.get_upcoming_games(sport_id)
 
         try:
@@ -37,6 +41,8 @@ class TabScraper(BookieScraper):
                 if live_element is not None:
                     continue
                 match_title = li_game.find("span", {"class": "match-name-text"}).get_text()
+                if "v" not in match_title:
+                    continue
                 home, away = match_title.split(" v ")
                 home = tab_mapping(home.lower().strip(), sport_id)
                 away = tab_mapping(away.lower().strip(), sport_id)

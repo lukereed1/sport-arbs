@@ -9,7 +9,8 @@ class BoombetScraper(BookieScraper):
         super().__init__()
         self.SPORT_URLS = {
             1: "https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL",
-            2: "https://www.boombet.com.au/sport-menu/Sport/Basketball/NBA"
+            2: "https://www.boombet.com.au/sport-menu/Sport/Basketball/NBA",
+            3: "https://www.boombet.com.au/sport-menu/Sport/Ice%20Hockey/NHL",
         }
 
     def scrape_h2h(self, sport_id):

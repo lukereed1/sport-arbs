@@ -1,5 +1,6 @@
 from team_names.nba_teams_enum import NBATeam
 from team_names.nfl_teams_enum import NFLTeam
+from team_names.nhl_teams_enum import NHLTeam
 
 
 def tab_mapping(team, sport_id):
@@ -71,5 +72,41 @@ def tab_mapping(team, sport_id):
             "utah": NBATeam.UTAH_JAZZ,
             "washington": NBATeam.WASHINGTON_WIZARDS
         }
-
         return nba_map[team].value
+    elif sport_id == 3:
+        nhl_map = {
+            "anaheim": NHLTeam.ANAHEIM_DUCKS,
+            "arizona": NHLTeam.ARIZONA_COYOTES,
+            "boston": NHLTeam.BOSTON_BRUINS,
+            "buffalo": NHLTeam.BUFFALO_SABRES,
+            "calgary": NHLTeam.CALGARY_FLAMES,
+            "carolina": NHLTeam.CAROLINA_HURRICANES,
+            "chicago": NHLTeam.CHICAGO_BLACKHAWKS,
+            "colorado": NHLTeam.COLORADO_AVALANCHE,
+            "columbus": NHLTeam.COLUMBUS_BLUE_JACKETS,
+            "dallas": NHLTeam.DALLAS_STARS,
+            "detroit": NHLTeam.DETROIT_RED_WINGS,
+            "edmonton": NHLTeam.EDMONTON_OILERS,
+            "florida": NHLTeam.FLORIDA_PANTHERS,
+            "los angeles": NHLTeam.LOS_ANGELES_KINGS,
+            "minnesota": NHLTeam.MINNESOTA_WILD,
+            "montreal": NHLTeam.MONTREAL_CANADIENS,
+            "nashville": NHLTeam.NASHVILLE_PREDATORS,
+            "new jersey": NHLTeam.NEW_JERSEY_DEVILS,
+            "ny islanders": NHLTeam.NEW_YORK_ISLANDERS,
+            "ny rangers": NHLTeam.NEW_YORK_RANGERS,
+            "ottawa": NHLTeam.OTTAWA_SENATORS,
+            "philadelphia": NHLTeam.PHILADELPHIA_FLYERS,
+            "pittsburgh": NHLTeam.PITTSBURGH_PENGUINS,
+            "san jose": NHLTeam.SAN_JOSE_SHARKS,
+            "seattle": NHLTeam.SEATTLE_KRAKEN,
+            "st. louis": NHLTeam.ST_LOUIS_BLUES,
+            "tampa bay": NHLTeam.TAMPA_BAY_LIGHTNING,
+            "toronto": NHLTeam.TORONTO_MAPLE_LEAFS,
+            "utah": NHLTeam.UTAH_HOCKEY_CLUB,
+            "vancouver": NHLTeam.VANCOUVER_CANUCKS,
+            "vegas": NHLTeam.VEGAS_GOLDEN_KNIGHTS,
+            "washington": NHLTeam.WASHINGTON_CAPITALS,
+            "winnipeg": NHLTeam.WINNIPEG_JETS
+        }
+        return nhl_map[team].value

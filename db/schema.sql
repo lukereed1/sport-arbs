@@ -61,27 +61,33 @@ VALUES ('Sportsbet', 'https://www.sportsbet.com.au/betting/american-football/nfl
         'https://www.sportsbet.com.au/betting/basketball-us/nba',
         'https://www.sportsbet.com.au/betting/ice-hockey-us/nhl-games');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Neds', 'https://www.neds.com.au/sports/american-football/nfl',
-        'https://www.neds.com.au/sports/basketball/usa/nba');
+        'https://www.neds.com.au/sports/basketball/usa/nba',
+        'https://www.neds.com.au/sports/ice-hockey/usa/nhl');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('TAB', 'https://www.tab.com.au/sports/betting/American%20Football/competitions/NFL',
-        'https://www.tab.com.au/sports/betting/Basketball/competitions/NBA');
+        'https://www.tab.com.au/sports/betting/Basketball/competitions/NBA',
+        'https://www.tab.com.au/sports/betting/Ice%20Hockey');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Pointsbet', 'https://pointsbet.com.au/sports/american-football/NFL',
-        'https://pointsbet.com.au/sports/basketball/NBA');
+        'https://pointsbet.com.au/sports/basketball/NBA',
+        'https://pointsbet.com.au/sports/ice-hockey/NHL');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Boombet', 'https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL',
-        'https://www.boombet.com.au/sport-menu/Sport/Basketball/NBA');
+        'https://www.boombet.com.au/sport-menu/Sport/Basketball/NBA',
+        'https://www.boombet.com.au/sport-menu/Sport/Ice%20Hockey/NHL');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Betr', 'https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249',
-        'https://www.betr.com.au/sports/Basketball/107/United-States-of-America/NBA-Matches/39251');
+        'https://www.betr.com.au/sports/Basketball/107/United-States-of-America/NBA-Matches/39251',
+        'https://www.betr.com.au/sports/Ice-Hockey/111/United-States-of-America/NHL-Matches/39252');
 --INSERT INTO bookmakers(bookmaker) VALUES ('BetDeluxe');
 --INSERT INTO bookmakers(bookmaker) VALUES ('Bluebet');
+--INSERT INTO bookmakers(bookmaker) VALUES ('EliteBet');
 
 INSERT INTO markets(market) VALUES("H2H");
 INSERT INTO markets(market) VALUES("Line");

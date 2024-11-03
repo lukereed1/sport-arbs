@@ -11,7 +11,8 @@ class BetrScraper(BookieScraper):
         super().__init__()
         self.SPORT_URLS = {
             1: "https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249",
-            2: "https://www.betr.com.au/sports/Basketball/107/United-States-of-America/NBA-Matches/39251"
+            2: "https://www.betr.com.au/sports/Basketball/107/United-States-of-America/NBA-Matches/39251",
+            3: "https://www.betr.com.au/sports/Ice-Hockey/111/United-States-of-America/NHL-Matches/39252"
         }
 
     def scrape_h2h(self, sport_id):

@@ -10,7 +10,8 @@ class PointsbetScraper(BookieScraper):
         super().__init__()
         self.SPORT_URLS = {
             1: "https://pointsbet.com.au/sports/american-football/NFL",
-            2: "https://pointsbet.com.au/sports/basketball/NBA"
+            2: "https://pointsbet.com.au/sports/basketball/NBA",
+            3: "https://pointsbet.com.au/sports/ice-hockey/NHL"
         }
 
     def scrape_h2h(self, sport_id):

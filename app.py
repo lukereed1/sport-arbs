@@ -13,8 +13,8 @@ from scrapers.betr_scraper import BetrScraper
 app = Flask(__name__)
 
 sports = ["NFL", "NBA", "NHL"]
-scrapers = [SportsbetScraper()]
-# scrapers = [SportsbetScraper(), PointsbetScraper(),  NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
+# scrapers = [TabScraper()]
+scrapers = [SportsbetScraper(), PointsbetScraper(),  NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
 
 
 def init_db():

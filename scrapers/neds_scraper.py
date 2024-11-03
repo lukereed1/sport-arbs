@@ -10,7 +10,8 @@ class NedsScraper(BookieScraper):
         super().__init__()
         self.SPORT_URLS = {
             1: "https://www.neds.com.au/sports/american-football/nfl",
-            2: "https://www.neds.com.au/sports/basketball/usa/nba"
+            2: "https://www.neds.com.au/sports/basketball/usa/nba",
+            3: "https://www.neds.com.au/sports/ice-hockey/usa/nhl",
         }
 
     @staticmethod
