@@ -8,7 +8,8 @@ class SportsbetScraper(BookieScraper):
         super().__init__()
         self.SPORT_URLS = {
             1: "https://www.sportsbet.com.au/betting/american-football/nfl",
-            2: "https://www.sportsbet.com.au/betting/basketball-us/nba"
+            2: "https://www.sportsbet.com.au/betting/basketball-us/nba",
+            3: "https://www.sportsbet.com.au/betting/ice-hockey-us/nhl-games",
         }
 
     def scrape_h2h(self, sport_id):
@@ -35,12 +36,19 @@ class SportsbetScraper(BookieScraper):
                 curr_date_games_list = container.next_sibling.find_all("li")
 
                 for li_game in curr_date_games_list:
+
                     try:
                         live_element = li_game.find("div", class_="live_fst4f0d")
                         if live_element is not None:  # Skip live games
                             continue
-                        away = li_game.find("div", {"data-automation-id": "participant-one"}).get_text()
-                        home = li_game.find("div", {"data-automation-id": "participant-two"}).get_text()
+                        away = li_game.find("div", {"data-automation-id": "participant-one"})
+                        home = li_game.find("div", {"data-automation-id": "participant-two"})
+
+                        if away is None or home is None:
+                            teams = li_game.find_all("span", class_="size14_f7opyze Endeavour_fhudrb0 medium_f1wf24vo "
+                                                                    "participant_f1adow81")
+                            away = teams[0].get_text().replace("@", "").strip()
+                            home = teams[1].get_text().replace("@", "").strip()
 
                         odds = li_game.find_all("span", class_="size14_f7opyze bold_f1au7gae priceTextSize_frw9zm9")
                         home_odds = float(odds[1].get_text())

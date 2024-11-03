@@ -10,6 +10,7 @@ class GamesScraper:
         self.SPORT_URLS = {
             1: "https://www.espn.com.au/nfl/schedule",
             2: "https://www.espn.com.au/nba/schedule",
+            3: "https://www.espn.com.au/nhl/schedule",
         }
     # scrape following week eventually too
 
@@ -48,13 +49,17 @@ class GamesScraper:
                 if away_team is not None:
                     away_team = away_team.split("/")[6]
 
-                game = {
-                    "sport": sport_id,
-                    "home": espn_mapping(home_team, sport_id),
-                    "away": espn_mapping(away_team, sport_id),
-                    "date": date,
-                    "time": time
-                }
+                try:
+                    game = {
+                        "sport": sport_id,
+                        "home": espn_mapping(home_team, sport_id),
+                        "away": espn_mapping(away_team, sport_id),
+                        "date": date,
+                        "time": time
+                    }
+                except KeyError as ke:
+                    print(f"Problem with getting a game for sport: {sport_id}\nError: {ke}")
+                    continue
 
                 db = DB()
                 if not db.check_game_exists(game):

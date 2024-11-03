@@ -1,5 +1,6 @@
 from team_names.nba_teams_enum import NBATeam
 from team_names.nfl_teams_enum import NFLTeam
+from team_names.nhl_teams_enum import NHLTeam
 
 
 def espn_mapping(team, sport_id):
@@ -75,6 +76,41 @@ def espn_mapping(team, sport_id):
         }
         return nba_map[team].value
 
-
-
+    elif sport_id == 3:
+        nhl_map = {
+            "anaheim-ducks": NHLTeam.ANAHEIM_DUCKS,
+            "arizona-coyotes": NHLTeam.ARIZONA_COYOTES,
+            "boston-bruins": NHLTeam.BOSTON_BRUINS,
+            "buffalo-sabres": NHLTeam.BUFFALO_SABRES,
+            "calgary-flames": NHLTeam.CALGARY_FLAMES,
+            "carolina-hurricanes": NHLTeam.CAROLINA_HURRICANES,
+            "chicago-blackhawks": NHLTeam.CHICAGO_BLACKHAWKS,
+            "colorado-avalanche": NHLTeam.COLORADO_AVALANCHE,
+            "columbus-blue-jackets": NHLTeam.COLUMBUS_BLUE_JACKETS,
+            "dallas-stars": NHLTeam.DALLAS_STARS,
+            "detroit-red-wings": NHLTeam.DETROIT_RED_WINGS,
+            "edmonton-oilers": NHLTeam.EDMONTON_OILERS,
+            "florida-panthers": NHLTeam.FLORIDA_PANTHERS,
+            "los-angeles-kings": NHLTeam.LOS_ANGELES_KINGS,
+            "minnesota-wild": NHLTeam.MINNESOTA_WILD,
+            "montreal-canadiens": NHLTeam.MONTREAL_CANADIENS,
+            "nashville-predators": NHLTeam.NASHVILLE_PREDATORS,
+            "new-jersey-devils": NHLTeam.NEW_JERSEY_DEVILS,
+            "new-york-islanders": NHLTeam.NEW_YORK_ISLANDERS,
+            "new-york-rangers": NHLTeam.NEW_YORK_RANGERS,
+            "ottawa-senators": NHLTeam.OTTAWA_SENATORS,
+            "philadelphia-flyers": NHLTeam.PHILADELPHIA_FLYERS,
+            "pittsburgh-penguins": NHLTeam.PITTSBURGH_PENGUINS,
+            "san-jose-sharks": NHLTeam.SAN_JOSE_SHARKS,
+            "seattle-kraken": NHLTeam.SEATTLE_KRAKEN,
+            "st-louis-blues": NHLTeam.ST_LOUIS_BLUES,
+            "tampa-bay-lightning": NHLTeam.TAMPA_BAY_LIGHTNING,
+            "toronto-maple-leafs": NHLTeam.TORONTO_MAPLE_LEAFS,
+            "utah-hockey-club": NHLTeam.UTAH_HOCKEY_CLUB,
+            "vancouver-canucks": NHLTeam.VANCOUVER_CANUCKS,
+            "vegas-golden-knights": NHLTeam.VEGAS_GOLDEN_KNIGHTS,
+            "washington-capitals": NHLTeam.WASHINGTON_CAPITALS,
+            "winnipeg-jets": NHLTeam.WINNIPEG_JETS
+        }
+        return nhl_map[team].value
 

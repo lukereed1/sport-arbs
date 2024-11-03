@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS bookmakers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     bookmaker TEXT NOT NULL,
     url_1 TEXT NOT NULL,
-    url_2 TEXT NOT NULL
+    url_2 TEXT NOT NULL,
+    url_3 TEXT
 );
 
 CREATE TABLE IF NOT EXISTS markets (
@@ -43,8 +44,7 @@ CREATE TABLE IF NOT EXISTS game_markets(
 
 INSERT INTO sports (sport) VALUES ('NFL');
 INSERT INTO sports (sport) VALUES ('NBA');
-INSERT INTO sports (sport) VALUES ('NRL');
-INSERT INTO sports (sport) VALUES ('AFL');
+INSERT INTO sports (sport) VALUES ('NHL');
 
 
 --INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
@@ -56,9 +56,10 @@ INSERT INTO sports (sport) VALUES ('AFL');
 --INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
 --VALUES (1, "Team_C", "Team_B", "2024-10-10", "20:13:00");
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Sportsbet', 'https://www.sportsbet.com.au/betting/american-football/nfl',
-        'https://www.sportsbet.com.au/betting/basketball-us/nba');
+        'https://www.sportsbet.com.au/betting/basketball-us/nba',
+        'https://www.sportsbet.com.au/betting/ice-hockey-us/nhl-games');
 
 INSERT INTO bookmakers(bookmaker, url_1, url_2)
 VALUES ('Neds', 'https://www.neds.com.au/sports/american-football/nfl',

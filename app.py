@@ -12,9 +12,9 @@ from scrapers.betr_scraper import BetrScraper
 
 app = Flask(__name__)
 
-sports = ["NFL", "NBA"]
-# scrapers = [BetrScraper()]
-scrapers = [SportsbetScraper(), PointsbetScraper(),  NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
+sports = ["NFL", "NBA", "NHL"]
+scrapers = [SportsbetScraper()]
+# scrapers = [SportsbetScraper(), PointsbetScraper(),  NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
 
 
 def init_db():
@@ -106,6 +106,8 @@ def scrape_sport_markets():
         sport_id = 1
     elif sport == "NBA":
         sport_id = 2
+    elif sport == "NHL":
+        sport_id = 3
     else:
         abort(404)
 
