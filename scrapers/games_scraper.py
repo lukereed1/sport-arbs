@@ -11,6 +11,7 @@ class GamesScraper:
             1: "https://www.espn.com.au/nfl/schedule",
             2: "https://www.espn.com.au/nba/schedule",
             3: "https://www.espn.com.au/nhl/schedule",
+            4: "https://www.espn.com.au/football/fixtures/_/league/eng.1",
         }
     # scrape following week eventually too
 
@@ -42,9 +43,15 @@ class GamesScraper:
                 else:
                     continue  # Don't get data if games completed
 
-                home_team = game.find("td", class_="colspan__col Table__TD").find("a", class_="AnchorLink")["href"]
+                if sport_id == 4:
+                    home_team_links = game.find("td", class_="colspan__col Table__TD").find_all("a", class_="AnchorLink")
+                    home_team = home_team_links[1]["href"]
+                else:
+                    home_team = game.find("td", class_="colspan__col Table__TD").find("a", class_="AnchorLink")["href"]
+
                 if home_team is not None:
                     home_team = home_team.split("/")[6]
+
                 away_team = game.find("td", class_="events__col Table__TD").find("a", class_="AnchorLink")["href"]
                 if away_team is not None:
                     away_team = away_team.split("/")[6]
@@ -61,6 +68,7 @@ class GamesScraper:
                     print(f"Problem with getting a game for sport: {sport_id}\nError: {ke}")
                     continue
 
+                print(game)
                 db = DB()
                 if not db.check_game_exists(game):
                     db.insert_game(game)

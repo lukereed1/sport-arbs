@@ -38,7 +38,7 @@ class DB:
                 "INSERT INTO games (sport_id, home_team, away_team, game_date, game_time) VALUES (?, ?, ?, ?, ?)",
                 (game['sport'], game['home'], game['away'], game['date'], game['time']))
             conn.commit()
-        except sqlite3.OperationalError as e:
+        except (sqlite3.OperationalError, sqlite3.IntegrityError) as e:
             print(f"Problem inserting game\nError: {e}")
         finally:
             conn.close()

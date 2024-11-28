@@ -45,6 +45,8 @@ CREATE TABLE IF NOT EXISTS game_markets(
 INSERT INTO sports (sport) VALUES ('NFL');
 INSERT INTO sports (sport) VALUES ('NBA');
 INSERT INTO sports (sport) VALUES ('NHL');
+INSERT INTO sports (sport) VALUES ('EPL');
+
 
 INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Sportsbet', 'https://www.sportsbet.com.au/betting/american-football/nfl',
