@@ -1,10 +1,11 @@
 import asyncio
 from datetime import datetime
 
-from team_names.tab_team_map import tab_mapping
-from util import get_soup_pyppeteer, get_soup_playwright_async
-from scrapers.bookie_scraper import BookieScraper
 from bs4 import SoupStrainer
+
+from scrapers.bookie_scraper import BookieScraper
+from team_names.tab_team_map import tab_mapping
+from util import get_soup_playwright_async
 
 
 class TabScraper(BookieScraper):
@@ -19,7 +20,7 @@ class TabScraper(BookieScraper):
     def scrape_h2h(self, sport_id):
         print(f"Scraping Sport: {sport_id} Odds for TAB")
         strainer = SoupStrainer("div", class_="customised-template")
-        try:  # Skip function if bookie not compatible with current sport iteration
+        try:  # Skip function if bookie not compatible with current sport iteration (url commented out)
             soup = asyncio.run(get_soup_playwright_async(self.SPORT_URLS[sport_id]))
         except KeyError:
             return
@@ -36,7 +37,6 @@ class TabScraper(BookieScraper):
 
         for li_game in games_list:
             try:
-                # date = li_game.find("li", {"data-test": "close-time"}).get_text()
                 live_element = li_game.find("li", class_="in-play")
                 if live_element is not None:
                     continue
@@ -55,8 +55,7 @@ class TabScraper(BookieScraper):
                 continue
 
             for game in stored_games:
-                # if self.date_format(date) == game["game_date"]:
-                    self.update_h2h_market(home, away, game, 3, home_odds, away_odds)
+                self.update_h2h_market(home, away, game, 3, home_odds, away_odds)
 
     @staticmethod
     def date_format(date_string):

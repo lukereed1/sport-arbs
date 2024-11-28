@@ -1,9 +1,8 @@
+import asyncio
 import re
 
-from util import get_soup, get_soup_playwright, get_soup_pyppeteer, get_soup_playwright_async
 from scrapers.bookie_scraper import BookieScraper
-from bs4 import SoupStrainer
-import asyncio
+from util import get_soup_playwright_async
 
 
 class BetrScraper(BookieScraper):

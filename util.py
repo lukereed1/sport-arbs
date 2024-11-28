@@ -19,30 +19,6 @@ def get_soup(url, strainer):
         print(f"Http Error: {hp}")
 
 
-# use when site has loading screens
-async def get_soup_pyppeteer(url):
-    browser = await launch(headless=False,
-                           handleSIGINT=False,
-                           handleSIGTERM=False,
-                           handleSIGHUP=False)
-    page = await browser.newPage()
-
-    await page.setViewport({"width": 1920, "height": 1080})
-    try:
-        ua = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
-        await page.setUserAgent(ua)
-        await page.goto(url)
-        content = await page.content()
-        soup = BeautifulSoup(content, "lxml")
-        return soup
-    except PageError as pe:
-        print(f"Page Error: {pe}")
-    except TimeoutError as te:
-        print(f"Timeout Error: {te}")
-    finally:
-        await browser.close()
-
-
 async def get_soup_playwright_async(url):
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
@@ -75,4 +51,24 @@ def get_soup_playwright(url):
         return soup
 
 
-# get_playwright("https://www.tab.com.au/sports/betting/American%20Football/competitions/NFL")
+# async def get_soup_pyppeteer(url):
+#     browser = await launch(headless=False,
+#                            handleSIGINT=False,
+#                            handleSIGTERM=False,
+#                            handleSIGHUP=False)
+#     page = await browser.newPage()
+#
+#     await page.setViewport({"width": 1920, "height": 1080})
+#     try:
+#         ua = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+#         await page.setUserAgent(ua)
+#         await page.goto(url)
+#         content = await page.content()
+#         soup = BeautifulSoup(content, "lxml")
+#         return soup
+#     except PageError as pe:
+#         print(f"Page Error: {pe}")
+#     except TimeoutError as te:
+#         print(f"Timeout Error: {te}")
+#     finally:
+#         await browser.close()

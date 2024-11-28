@@ -59,8 +59,7 @@ def calculate_arbs(sport_id):
                     "book_1_url": outer[f"url_{sport_id}"],
                     "book_2_url": inner[f"url_{sport_id}"]
                 })
-                # print(outer[f"url_{sport_id}"])
-                # print(inner[f"url_{sport_id}"])
+          
     all_games_with_arb_percent.sort(key=lambda item: item["arbitrage_sum"])
     return all_games_with_arb_percent
 
@@ -82,13 +81,12 @@ def sport():
     sport_id = request.args.get("id")
     arbs = calculate_arbs(sport_id)
 
-    # return render_template("arb.html", arbs=arbs, title=title)
+    return render_template("arb.html", arbs=arbs, title=title)
 
-    markets = db.get_all_markets(sport_id)
-    return render_template("sport.html", markets=markets, title=title)
+    # markets = db.get_all_markets(sport_id)
+    # return render_template("sport.html", markets=markets, title=title)
 
 
-# make route for individual sports eventually, with a tab for each one on the website
 @app.route("/scrape_upcoming_games", methods=["POST"])
 def scrape_upcoming_games():
     scraper = GamesScraper()

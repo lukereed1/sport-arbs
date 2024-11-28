@@ -1,8 +1,9 @@
-import asyncio
 from datetime import datetime
-from util import get_soup_pyppeteer, get_soup_playwright
-from scrapers.bookie_scraper import BookieScraper
+
 from bs4 import SoupStrainer
+
+from scrapers.bookie_scraper import BookieScraper
+from util import get_soup_playwright
 
 
 class NedsScraper(BookieScraper):
@@ -22,7 +23,6 @@ class NedsScraper(BookieScraper):
     def scrape_h2h(self, sport_id):
         print(f"Scraping Sport: {sport_id} Odds for Neds")
         games = self.db.get_upcoming_games(sport_id)
-        strainer = SoupStrainer("div", attrs={"class": "events-wrapper__row-wrapper"})
         soup = get_soup_playwright(self.SPORT_URLS[sport_id])
 
         try:
@@ -35,11 +35,7 @@ class NedsScraper(BookieScraper):
             return
 
         for container in game_containers:
-            # date = container.find("span", class_="sports-date-title__text").get_text()
             for game in games:
-                # if game['game_date'] != self.date_format(date):
-                #     continue
-
                 curr_date_games_list = container.find_all("div", class_="sport-event-card")
 
                 for li_game in curr_date_games_list:

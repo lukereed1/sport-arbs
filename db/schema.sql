@@ -46,16 +46,6 @@ INSERT INTO sports (sport) VALUES ('NFL');
 INSERT INTO sports (sport) VALUES ('NBA');
 INSERT INTO sports (sport) VALUES ('NHL');
 
-
---INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
---VALUES (1, "Team_A", "Team_B", "2024-10-10", "14:13:00");
---
---INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
---VALUES (2, "Team_B", "Team_B", "2024-10-10", "16:13:00");
---
---INSERT INTO games (sport_id, home_team, away_team, game_date, game_time)
---VALUES (1, "Team_C", "Team_B", "2024-10-10", "20:13:00");
-
 INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Sportsbet', 'https://www.sportsbet.com.au/betting/american-football/nfl',
         'https://www.sportsbet.com.au/betting/basketball-us/nba',

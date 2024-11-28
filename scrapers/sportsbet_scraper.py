@@ -28,15 +28,9 @@ class SportsbetScraper(BookieScraper):
             return
 
         for container in game_containers:
-            # date = container.find("time").get('datetime')
             for game in games:
-                # if game['game_date'] != date:
-                #     continue
-
                 curr_date_games_list = container.next_sibling.find_all("li")
-
                 for li_game in curr_date_games_list:
-
                     try:
                         live_element = li_game.find("div", class_="live_fst4f0d")
                         if live_element is not None:  # Skip live games

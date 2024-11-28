@@ -34,6 +34,7 @@ def tab_mapping(team, sport_id):
             "philadelphia": NFLTeam.PHILADELPHIA_EAGLES,
             "pittsburgh": NFLTeam.PITTSBURGH_STEELERS,
             "seattle": NFLTeam.SEATTLE_SEAHAWKS,
+            "san francisco": NFLTeam.SAN_FRANCISCO_49ERS,
             "tampa bay": NFLTeam.TAMPA_BAY_BUCCANEERS,
             "tennessee": NFLTeam.TENNESSEE_TITANS,
             "washington": NFLTeam.WASHINGTON_COMMANDERS
@@ -54,7 +55,7 @@ def tab_mapping(team, sport_id):
             "houston": NBATeam.HOUSTON_ROCKETS,
             "indiana": NBATeam.INDIANA_PACERS,
             "la clippers": NBATeam.LA_CLIPPERS,
-            "los angeles": NBATeam.LOS_ANGELES_LAKERS,
+            "la lakers": NBATeam.LOS_ANGELES_LAKERS,
             "memphis": NBATeam.MEMPHIS_GRIZZLIES,
             "miami": NBATeam.MIAMI_HEAT,
             "milwaukee": NBATeam.MILWAUKEE_BUCKS,

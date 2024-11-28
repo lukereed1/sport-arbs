@@ -116,7 +116,7 @@ class DB:
                            "SET option_1_odds = ?, option_2_odds = ? "
                            "WHERE id = ?", (new_odds_1, new_odds_2, game_market_id,))
             conn.commit()
-            # need this to refresh index page eventually (if odds updated)
+
         except sqlite3.OperationalError as e:
             print(f"Problem updating game market odds\nError: {e}")
         finally:

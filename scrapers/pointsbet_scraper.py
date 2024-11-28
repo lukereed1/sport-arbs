@@ -1,8 +1,8 @@
 import asyncio
 from datetime import datetime, timedelta
-from util import get_soup_playwright, get_soup_playwright_async, get_soup_pyppeteer
+
 from scrapers.bookie_scraper import BookieScraper
-from bs4 import SoupStrainer
+from util import get_soup_playwright_async
 
 
 class PointsbetScraper(BookieScraper):
@@ -17,9 +17,7 @@ class PointsbetScraper(BookieScraper):
     def scrape_h2h(self, sport_id):
         print(f"Scraping Sport: {sport_id} Odds for Pointsbet")
         stored_games = self.db.get_upcoming_games(sport_id)
-        # strainer = SoupStrainer("div", attrs={"class": "fqk2zjd"})
         soup = asyncio.run(get_soup_playwright_async(self.SPORT_URLS[sport_id]))
-        # soup = get_soup_playwright(self.NFL_URL)
 
         try:
             games_list = soup.find_all("div", {"data-test": "event"})
@@ -32,7 +30,6 @@ class PointsbetScraper(BookieScraper):
 
         for li_game in games_list:
             try:
-                # date = li_game.find("div", class_="f1vavtkk").get_text()
                 odds_boxes = li_game.find_all("span", class_="f11v6oas f1xlhiok")
                 if len(odds_boxes) != 6:
                     continue
@@ -47,7 +44,6 @@ class PointsbetScraper(BookieScraper):
                 continue
 
             for game in stored_games:
-                # if self.date_format(date) == game["game_date"]:
                 self.update_h2h_market(home, away, game, 4, home_odds, away_odds)
 
     @staticmethod
