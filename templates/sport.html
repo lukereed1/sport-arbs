@@ -12,6 +12,9 @@
                 <th>Game Time</th>
                 <th>Home</th>
                 <th>Home Odds</th>
+                {% if title == "EPL" %}
+                    <th>Draw Odds</th>
+                {% endif %}
                 <th>Away</th>
                 <th>Away Odds</th>
             </tr>
@@ -26,6 +29,9 @@
                     <td>{{ market['game_time'] }}</td>
                     <td>{{ market['option_1'] }}</td>
                     <td>{{ market['option_1_odds'] }}</td>
+                    {% if title == "EPL" %}
+                        <td>{{ market['option_3_odds'] }}</td>
+                    {% endif %}
                     <td>{{ market['option_2'] }}</td>
                     <td>{{ market['option_2_odds'] }}</td>
                 </tr>

@@ -80,16 +80,24 @@ class DB:
         except sqlite3.OperationalError as e:
             print(f"Problem getting markets for game id: {game_id}\nError: {e}")
 
-    def insert_game_market(self, game_market):
+    def insert_game_market(self, game_market, sport_id=None):
         conn = self.get_db_connection()
         cursor = conn.cursor()
         try:
-            cursor.execute("INSERT INTO game_markets (game_id, bookmaker_id, market_id, option_1, option_1_odds,"
-                           "option_2, option_2_odds) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                           (game_market['id'], game_market['bookmaker_id'],
-                            game_market['market_id'], game_market['opt_1'],
-                            game_market['opt_1_odds'], game_market['opt_2'],
-                            game_market['opt_2_odds'],))
+            if sport_id == 4:
+                cursor.execute("INSERT INTO game_markets (game_id, bookmaker_id, market_id, option_1, option_1_odds,"
+                               "option_2, option_2_odds, option_3_odds) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                               (game_market['id'], game_market['bookmaker_id'],
+                                game_market['market_id'], game_market['opt_1'],
+                                game_market['opt_1_odds'], game_market['opt_2'],
+                                game_market['opt_2_odds'], game_market['opt_3_odds'],))
+            else:
+                cursor.execute("INSERT INTO game_markets (game_id, bookmaker_id, market_id, option_1, option_1_odds,"
+                               "option_2, option_2_odds) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                               (game_market['id'], game_market['bookmaker_id'],
+                                game_market['market_id'], game_market['opt_1'],
+                                game_market['opt_1_odds'], game_market['opt_2'],
+                                game_market['opt_2_odds'],))
             conn.commit()
         except sqlite3.OperationalError as e:
             print(f"Problem inserting game market\nError: {e}")
@@ -108,14 +116,23 @@ class DB:
         finally:
             conn.close()
 
-    def update_game_market_odds(self, game_market_id, new_odds_1, new_odds_2):
+    def update_game_market_odds(self, sport_id, game_market_id, new_odds_1, new_odds_2, new_odds_3):
         conn = self.get_db_connection()
         cursor = conn.cursor()
+        print(f"odds1: {new_odds_1}")
+        print(f"odds2: {new_odds_2}")
+        print(f"odds3: {new_odds_3}")
         try:
-            cursor.execute("UPDATE game_markets "
-                           "SET option_1_odds = ?, option_2_odds = ? "
-                           "WHERE id = ?", (new_odds_1, new_odds_2, game_market_id,))
-            conn.commit()
+            if sport_id == 4:
+                cursor.execute("UPDATE game_markets "
+                               "SET option_1_odds = ?, option_2_odds = ?, option_3_odds = ? "
+                               "WHERE id = ?", (new_odds_1, new_odds_2, new_odds_3, game_market_id,))
+                conn.commit()
+            else:
+                cursor.execute("UPDATE game_markets "
+                               "SET option_1_odds = ?, option_2_odds = ? "
+                               "WHERE id = ?", (new_odds_1, new_odds_2, game_market_id,))
+                conn.commit()
 
         except sqlite3.OperationalError as e:
             print(f"Problem updating game market odds\nError: {e}")

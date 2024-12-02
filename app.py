@@ -12,7 +12,7 @@ from scrapers.betr_scraper import BetrScraper
 
 app = Flask(__name__)
 
-sports = ["NFL", "NBA", "NHL"]
+sports = ["NFL", "NBA", "NHL", "EPL"]
 # scrapers = [TabScraper()]
 scrapers = [SportsbetScraper(), PointsbetScraper(),  NedsScraper(), TabScraper(), BoombetScraper(), BetrScraper()]
 
@@ -79,12 +79,12 @@ def sport():
     if title not in sports:
         abort(404)
     sport_id = request.args.get("id")
-    arbs = calculate_arbs(sport_id)
 
-    return render_template("arb.html", arbs=arbs, title=title)
+    # arbs = calculate_arbs(sport_id)
+    # return render_template("arb.html", arbs=arbs, title=title)
 
-    # markets = db.get_all_markets(sport_id)
-    # return render_template("sport.html", markets=markets, title=title)
+    markets = db.get_all_markets(sport_id)
+    return render_template("sport.html", markets=markets, title=title)
 
 
 @app.route("/scrape_upcoming_games", methods=["POST"])
@@ -106,6 +106,8 @@ def scrape_sport_markets():
         sport_id = 2
     elif sport == "NHL":
         sport_id = 3
+    elif sport == "EPL":
+        sport_id = 4
     else:
         abort(404)
 

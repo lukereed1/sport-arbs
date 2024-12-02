@@ -68,7 +68,6 @@ class GamesScraper:
                     print(f"Problem with getting a game for sport: {sport_id}\nError: {ke}")
                     continue
 
-                print(game)
                 db = DB()
                 if not db.check_game_exists(game):
                     db.insert_game(game)
