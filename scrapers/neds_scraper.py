@@ -13,6 +13,7 @@ class NedsScraper(BookieScraper):
             1: "https://www.neds.com.au/sports/american-football/nfl",
             2: "https://www.neds.com.au/sports/basketball/usa/nba",
             3: "https://www.neds.com.au/sports/ice-hockey/usa/nhl",
+            4: "https://www.neds.com.au/sports/soccer/uk-ireland/premier-league",
         }
 
     @staticmethod
@@ -41,13 +42,18 @@ class NedsScraper(BookieScraper):
                 for li_game in curr_date_games_list:
                     try:
                         teams = li_game.find_all("div", class_="price-button-name")
-                        home = teams[0].get_text()
-                        away = teams[1].get_text()
-
                         odds = li_game.find_all("div", class_="price-button-odds-price")
+                        home = teams[0].get_text()
                         home_odds = float(odds[0].get_text())
-                        away_odds = float(odds[1].get_text())
 
-                        self.update_h2h_market(home, away, game, 2, home_odds, away_odds)
+                        if sport_id != 4:
+                            away = teams[1].get_text()
+                            away_odds = float(odds[1].get_text())
+                            self.update_h2h_market(home, away, game, 2, home_odds, away_odds)
+                        else:
+                            away = teams[2].get_text()
+                            away_odds = float(odds[2].get_text())
+                            draw_odds = float(odds[1].get_text())
+                            self.update_h2h_market(home, away, game, 2, home_odds, away_odds, draw_odds)
                     except (AttributeError, IndexError) as e:
                         print(f"Problem getting data for a game with sport id: {sport_id} on Neds\nError: {e}")

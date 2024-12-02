@@ -57,20 +57,22 @@ class GamesScraper:
                     away_team = away_team.split("/")[6]
 
                 try:
-                    game = {
+                    game_obj = {
                         "sport": sport_id,
                         "home": espn_mapping(home_team, sport_id),
                         "away": espn_mapping(away_team, sport_id),
                         "date": date,
                         "time": time
                     }
+                    if sport_id == 4:
+                        game_obj["home"], game_obj["away"] = game_obj["away"], game_obj["home"]
                 except KeyError as ke:
                     print(f"Problem with getting a game for sport: {sport_id}\nError: {ke}")
                     continue
 
                 db = DB()
-                if not db.check_game_exists(game):
-                    db.insert_game(game)
+                if not db.check_game_exists(game_obj):
+                    db.insert_game(game_obj)
 
     @staticmethod
     def convert_date(date):

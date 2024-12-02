@@ -8,7 +8,7 @@ class EPLTeam(Enum):
     BRIGHTON_AND_HOVE_ALBION = "Brighton & Hove Albion"
     CHELSEA = "Chelsea"
     CRYSTAL_PALACE = "Crystal Palace"
-    EVERTON = "Everton"
+    EVERTON = "Everton FC"
     FULHAM = "Fulham"
     LEEDS_UNITED = "Leeds United"
     LEICESTER_CITY = "Leicester City"

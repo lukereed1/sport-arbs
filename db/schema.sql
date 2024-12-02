@@ -16,9 +16,10 @@ CREATE TABLE IF NOT EXISTS games (
 CREATE TABLE IF NOT EXISTS bookmakers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     bookmaker TEXT NOT NULL,
-    url_1 TEXT NOT NULL,
-    url_2 TEXT NOT NULL,
-    url_3 TEXT
+    url_1 TEXT,
+    url_2 TEXT,
+    url_3 TEXT,
+    url_4 TEXT
 );
 
 CREATE TABLE IF NOT EXISTS markets (
@@ -48,15 +49,17 @@ INSERT INTO sports (sport) VALUES ('NHL');
 INSERT INTO sports (sport) VALUES ('EPL');
 
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3, url_4)
 VALUES ('Sportsbet', 'https://www.sportsbet.com.au/betting/american-football/nfl',
         'https://www.sportsbet.com.au/betting/basketball-us/nba',
-        'https://www.sportsbet.com.au/betting/ice-hockey-us/nhl-games');
+        'https://www.sportsbet.com.au/betting/ice-hockey-us/nhl-games',
+        'https://www.sportsbet.com.au/betting/soccer/united-kingdom/english-premier-league');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3, url_4)
 VALUES ('Neds', 'https://www.neds.com.au/sports/american-football/nfl',
         'https://www.neds.com.au/sports/basketball/usa/nba',
-        'https://www.neds.com.au/sports/ice-hockey/usa/nhl');
+        'https://www.neds.com.au/sports/ice-hockey/usa/nhl',
+        'https://www.neds.com.au/sports/soccer/uk-ireland/premier-league');
 
 INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('TAB', 'https://www.tab.com.au/sports/betting/American%20Football/competitions/NFL',
@@ -77,9 +80,10 @@ INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Betr', 'https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249',
         'https://www.betr.com.au/sports/Basketball/107/United-States-of-America/NBA-Matches/39251',
         'https://www.betr.com.au/sports/Ice-Hockey/111/United-States-of-America/NHL-Matches/39252');
+
 --INSERT INTO bookmakers(bookmaker) VALUES ('BetDeluxe');
 --INSERT INTO bookmakers(bookmaker) VALUES ('Bluebet');
 --INSERT INTO bookmakers(bookmaker) VALUES ('EliteBet');
 
-INSERT INTO markets(market) VALUES("H2H");
-INSERT INTO markets(market) VALUES("Line");
+INSERT INTO markets(market) VALUES('H2H');
+--INSERT INTO markets(market) VALUES("Line");

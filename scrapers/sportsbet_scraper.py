@@ -59,13 +59,13 @@ class SportsbetScraper(BookieScraper):
                             away_details = li_game.find("div", class_="outcomeDetailsLast_fu8m1aj")
                             draw_details = li_game.find("div", class_="outcomeDetails_fssdpgi outcomeDetails_fssdpgi "
                                                                       "threeOutcomes_flpw9cb")
-                            away = home_details.find("span",
+                            home = home_details.find("span",
                                                      class_="size12_fq5j3k2 normal_fgzdi7m caption_f4zed5e").get_text()
-                            away_odds = float(home_details.find("span", class_="size14_f7opyze bold_f1au7gae "
+                            home_odds = float(home_details.find("span", class_="size14_f7opyze bold_f1au7gae "
                                                                                "priceTextSize_frw9zm9").get_text())
-                            home = away_details.find("span",
+                            away = away_details.find("span",
                                                      class_="size12_fq5j3k2 normal_fgzdi7m caption_f4zed5e").get_text()
-                            home_odds = float(away_details.find("span", class_="size14_f7opyze bold_f1au7gae "
+                            away_odds = float(away_details.find("span", class_="size14_f7opyze bold_f1au7gae "
                                                                                "priceTextSize_frw9zm9").get_text())
                             draw_odds = float(draw_details.find("span", class_="size14_f7opyze bold_f1au7gae "
                                                                                "priceTextSize_frw9zm9").get_text())
