@@ -79,10 +79,11 @@ VALUES ('Boombet', 'https://www.boombet.com.au/sport-menu/Sport/American%20Footb
         'https://www.boombet.com.au/sport-menu/Sport/Ice%20Hockey/NHL',
         'https://www.boombet.com.au/sport-menu/Sport/Soccer/English%20Premier%20League');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3, url_4)
 VALUES ('Betr', 'https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249',
         'https://www.betr.com.au/sports/Basketball/107/United-States-of-America/NBA-Matches/39251',
-        'https://www.betr.com.au/sports/Ice-Hockey/111/United-States-of-America/NHL-Matches/39252');
+        'https://www.betr.com.au/sports/Ice-Hockey/111/United-States-of-America/NHL-Matches/39252',
+        'https://www.betr.com.au/sports/Soccer/100/England/English-Premier-League/36715');
 
 --INSERT INTO bookmakers(bookmaker) VALUES ('BetDeluxe');
 --INSERT INTO bookmakers(bookmaker) VALUES ('Bluebet');
