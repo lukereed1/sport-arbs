@@ -61,10 +61,11 @@ VALUES ('Neds', 'https://www.neds.com.au/sports/american-football/nfl',
         'https://www.neds.com.au/sports/ice-hockey/usa/nhl',
         'https://www.neds.com.au/sports/soccer/uk-ireland/premier-league');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3, url_4)
 VALUES ('TAB', 'https://www.tab.com.au/sports/betting/American%20Football/competitions/NFL',
         'https://www.tab.com.au/sports/betting/Basketball/competitions/NBA',
-        'https://www.tab.com.au/sports/betting/Ice%20Hockey');
+        'https://www.tab.com.au/sports/betting/Ice%20Hockey',
+        'https://www.tab.com.au/sports/betting/Soccer/competitions/English%20Premier%20League');
 
 INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Pointsbet', 'https://pointsbet.com.au/sports/american-football/NFL',

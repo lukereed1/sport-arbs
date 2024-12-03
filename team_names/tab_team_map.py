@@ -1,3 +1,4 @@
+from team_names.epl_teams_enum import EPLTeam
 from team_names.nba_teams_enum import NBATeam
 from team_names.nfl_teams_enum import NFLTeam
 from team_names.nhl_teams_enum import NHLTeam
@@ -111,3 +112,28 @@ def tab_mapping(team, sport_id):
             "winnipeg": NHLTeam.WINNIPEG_JETS
         }
         return nhl_map[team].value
+    elif sport_id == 4:
+        epl_map = {
+            "arsenal": EPLTeam.ARSENAL,
+            "aston villa": EPLTeam.ASTON_VILLA,
+            "brentford": EPLTeam.BRENTFORD,
+            "brighton hovealb": EPLTeam.BRIGHTON_AND_HOVE_ALBION,
+            "chelsea": EPLTeam.CHELSEA,
+            "crystal palace": EPLTeam.CRYSTAL_PALACE,
+            "everton": EPLTeam.EVERTON,
+            "fulham": EPLTeam.FULHAM,
+            "leeds-united": EPLTeam.LEEDS_UNITED,
+            "leicester": EPLTeam.LEICESTER_CITY,
+            "liverpool": EPLTeam.LIVERPOOL,
+            "manchester city": EPLTeam.MANCHESTER_CITY,
+            "man united": EPLTeam.MANCHESTER_UNITED,
+            "newcastle": EPLTeam.NEWCASTLE_UNITED,
+            "nottinghm forest": EPLTeam.NOTTINGHAM_FOREST,
+            "southampton": EPLTeam.SOUTHAMPTON_FC,
+            "tottenham": EPLTeam.TOTTENHAM_HOTSPUR,
+            "west ham": EPLTeam.WEST_HAM_UNITED,
+            "wolverhampton": EPLTeam.WOLVERHAMPTON_WANDERERS,
+            "bournemouth": EPLTeam.AFC_BOURNEMOUTH,
+            "ipswich": EPLTeam.IPSWICH_TOWN
+        }
+        return epl_map[team].value

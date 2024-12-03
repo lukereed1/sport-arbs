@@ -16,11 +16,6 @@ class NedsScraper(BookieScraper):
             4: "https://www.neds.com.au/sports/soccer/uk-ireland/premier-league",
         }
 
-    @staticmethod
-    def date_format(date_string):
-        date = datetime.strptime(date_string.split(' ')[1], "%d/%m/%Y")
-        return date.strftime("%Y-%m-%d")
-
     def scrape_h2h(self, sport_id):
         print(f"Scraping Sport: {sport_id} Odds for Neds")
         games = self.db.get_upcoming_games(sport_id)
@@ -57,3 +52,8 @@ class NedsScraper(BookieScraper):
                             self.update_h2h_market(home, away, game, 2, home_odds, away_odds, draw_odds)
                     except (AttributeError, IndexError) as e:
                         print(f"Problem getting data for a game with sport id: {sport_id} on Neds\nError: {e}")
+
+    @staticmethod
+    def date_format(date_string):
+        date = datetime.strptime(date_string.split(' ')[1], "%d/%m/%Y")
+        return date.strftime("%Y-%m-%d")
