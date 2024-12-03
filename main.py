@@ -1,4 +1,5 @@
 #  sandbox
+from scrapers.boombet_scraper import BoombetScraper
 from scrapers.games_scraper import GamesScraper
 from scrapers.neds_scraper import NedsScraper
 from scrapers.pointsbet_scraper import PointsbetScraper
@@ -15,8 +16,11 @@ def test():
     # tab = TabScraper()
     # tab.scrape_h2h(4)
 
-    pb = PointsbetScraper()
-    pb.scrape_h2h(4)
+    # pb = PointsbetScraper()
+    # pb.scrape_h2h(4)
+
+    bb = BoombetScraper()
+    bb.scrape_h2h(4)
 
 
 test()

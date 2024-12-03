@@ -67,16 +67,17 @@ VALUES ('TAB', 'https://www.tab.com.au/sports/betting/American%20Football/compet
         'https://www.tab.com.au/sports/betting/Ice%20Hockey',
         'https://www.tab.com.au/sports/betting/Soccer/competitions/English%20Premier%20League');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3, url_4)
 VALUES ('Pointsbet', 'https://pointsbet.com.au/sports/american-football/NFL',
         'https://pointsbet.com.au/sports/basketball/NBA',
         'https://pointsbet.com.au/sports/ice-hockey/NHL',
         'https://pointsbet.com.au/sports/soccer/English-Premier-League');
 
-INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
+INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3, url_4)
 VALUES ('Boombet', 'https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL',
         'https://www.boombet.com.au/sport-menu/Sport/Basketball/NBA',
-        'https://www.boombet.com.au/sport-menu/Sport/Ice%20Hockey/NHL');
+        'https://www.boombet.com.au/sport-menu/Sport/Ice%20Hockey/NHL',
+        'https://www.boombet.com.au/sport-menu/Sport/Soccer/English%20Premier%20League');
 
 INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Betr', 'https://www.betr.com.au/sports/American-Football/108/United-States-of-America/NFL-Matches/37249',

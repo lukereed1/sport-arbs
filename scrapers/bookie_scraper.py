@@ -12,7 +12,7 @@ class BookieScraper(ABC):
         pass
 
     def update_h2h_market(self, home, away, game, bookmaker_id, home_odds, away_odds, draw_odds=None):
-        # print(f"SCRAPED GAME HOME_TEAM: {home}\nEXISTING GAME HOME_TEAM: {game['home_team']}\n")
+        print(f"SCRAPED GAME HOME_TEAM: {home}\nEXISTING GAME HOME_TEAM: {game['home_team']}\n")
         if home == game["home_team"]:
 
             if away == game["away_team"]:

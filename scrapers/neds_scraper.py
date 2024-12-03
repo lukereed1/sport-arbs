@@ -3,6 +3,7 @@ from datetime import datetime
 from bs4 import SoupStrainer
 
 from scrapers.bookie_scraper import BookieScraper
+from team_names.neds_team_map import neds_mapping
 from util import get_soup_playwright
 
 
@@ -46,7 +47,9 @@ class NedsScraper(BookieScraper):
                             away_odds = float(odds[1].get_text())
                             self.update_h2h_market(home, away, game, 2, home_odds, away_odds)
                         else:
+                            home = neds_mapping(home.lower(), 4)
                             away = teams[2].get_text()
+                            away = neds_mapping(away.lower(), 4)
                             away_odds = float(odds[2].get_text())
                             draw_odds = float(odds[1].get_text())
                             self.update_h2h_market(home, away, game, 2, home_odds, away_odds, draw_odds)

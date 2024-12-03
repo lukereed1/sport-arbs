@@ -21,9 +21,9 @@ class DB:
     def get_upcoming_games(self, sport_id):
         conn = self.get_db_connection()
         try:
-            games = conn.execute("SELECT * FROM games WHERE sport_id = ?"
-                                 "AND (game_date > DATE('now')) OR (game_date = DATE('now')"
-                                 "AND game_time > TIME('now'))", (sport_id,)).fetchall()
+            games = conn.execute("SELECT * FROM games WHERE sport_id = ? "
+                                 "AND ((game_date > DATE('now')) OR (game_date = DATE('now') "
+                                 "AND game_time > TIME('now')))", (sport_id,)).fetchall()
             return games
         except sqlite3.OperationalError as e:
             print(f"Problem getting upcoming games\nError: {e}")
