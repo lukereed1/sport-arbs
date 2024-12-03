@@ -70,7 +70,8 @@ VALUES ('TAB', 'https://www.tab.com.au/sports/betting/American%20Football/compet
 INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Pointsbet', 'https://pointsbet.com.au/sports/american-football/NFL',
         'https://pointsbet.com.au/sports/basketball/NBA',
-        'https://pointsbet.com.au/sports/ice-hockey/NHL');
+        'https://pointsbet.com.au/sports/ice-hockey/NHL',
+        'https://pointsbet.com.au/sports/soccer/English-Premier-League');
 
 INSERT INTO bookmakers(bookmaker, url_1, url_2, url_3)
 VALUES ('Boombet', 'https://www.boombet.com.au/sport-menu/Sport/American%20Football/NFL',
