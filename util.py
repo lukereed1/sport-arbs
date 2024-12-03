@@ -42,7 +42,7 @@ def get_soup_playwright(url):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         ua = (
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.81"
         )
         page = browser.new_page(user_agent=ua)
         page.goto(url)
@@ -51,24 +51,24 @@ def get_soup_playwright(url):
         return soup
 
 
-# async def get_soup_pyppeteer(url):
-#     browser = await launch(headless=False,
-#                            handleSIGINT=False,
-#                            handleSIGTERM=False,
-#                            handleSIGHUP=False)
-#     page = await browser.newPage()
-#
-#     await page.setViewport({"width": 1920, "height": 1080})
-#     try:
-#         ua = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
-#         await page.setUserAgent(ua)
-#         await page.goto(url)
-#         content = await page.content()
-#         soup = BeautifulSoup(content, "lxml")
-#         return soup
-#     except PageError as pe:
-#         print(f"Page Error: {pe}")
-#     except TimeoutError as te:
-#         print(f"Timeout Error: {te}")
-#     finally:
-#         await browser.close()
+async def get_soup_pyppeteer(url):
+    browser = await launch(headless=False,
+                           handleSIGINT=False,
+                           handleSIGTERM=False,
+                           handleSIGHUP=False)
+    page = await browser.newPage()
+
+    await page.setViewport({"width": 1920, "height": 1080})
+    try:
+        ua = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+        await page.setUserAgent(ua)
+        await page.goto(url)
+        content = await page.content()
+        soup = BeautifulSoup(content, "lxml")
+        return soup
+    except PageError as pe:
+        print(f"Page Error: {pe}")
+    except TimeoutError as te:
+        print(f"Timeout Error: {te}")
+    finally:
+        await browser.close()

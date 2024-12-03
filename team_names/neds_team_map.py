@@ -18,12 +18,12 @@ def neds_mapping(team, sport_id):
             "manchester city": EPLTeam.MANCHESTER_CITY,
             "manchester united": EPLTeam.MANCHESTER_UNITED,
             "newcastle united": EPLTeam.NEWCASTLE_UNITED,
-            "nottingham forrest": EPLTeam.NOTTINGHAM_FOREST,
+            "nottingham forest": EPLTeam.NOTTINGHAM_FOREST,
             "southampton fc": EPLTeam.SOUTHAMPTON_FC,
             "tottenham hotspur": EPLTeam.TOTTENHAM_HOTSPUR,
             "west ham united": EPLTeam.WEST_HAM_UNITED,
             "wolverhampton wanderers": EPLTeam.WOLVERHAMPTON_WANDERERS,
             "afc bournemouth": EPLTeam.AFC_BOURNEMOUTH,
-            "ipswitch town": EPLTeam.IPSWICH_TOWN
+            "ipswich town": EPLTeam.IPSWICH_TOWN
         }
         return epl_map[team].value

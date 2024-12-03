@@ -119,9 +119,6 @@ class DB:
     def update_game_market_odds(self, sport_id, game_market_id, new_odds_1, new_odds_2, new_odds_3):
         conn = self.get_db_connection()
         cursor = conn.cursor()
-        print(f"odds1: {new_odds_1}")
-        print(f"odds2: {new_odds_2}")
-        print(f"odds3: {new_odds_3}")
         try:
             if sport_id == 4:
                 cursor.execute("UPDATE game_markets "

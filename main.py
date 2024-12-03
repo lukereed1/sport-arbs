@@ -9,8 +9,8 @@ from scrapers.tab_scraper import TabScraper
 
 
 def test():
-    # ned = NedsScraper()
-    # ned.scrape_h2h(4)
+    ned = NedsScraper()
+    ned.scrape_h2h(4)
     #
     # sb = SportsbetScraper()
     # sb.scrape_h2h(4)
@@ -22,9 +22,9 @@ def test():
 
     # bb = BoombetScraper()
     # bb.scrape_h2h(4)
-
-    betr = BetrScraper()
-    betr.scrape_h2h(4)
+    #
+    # betr = BetrScraper()
+    # betr.scrape_h2h(4)
 
 
 test()

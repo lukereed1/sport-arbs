@@ -64,6 +64,9 @@ def calculate_arbs(sport_id):
     return all_games_with_arb_percent
 
 
+# def calculate_arbs_soccer()
+
+
 @app.route("/")
 def index():
     db = DB()

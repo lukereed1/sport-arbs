@@ -50,8 +50,8 @@ class BetrScraper(BookieScraper):
             except (IndexError, AttributeError) as e:
                 print(f"Problem getting data for a game with sport id: {sport_id} on Betr\nError: {e}")
                 continue
-            home = betr_mapping(teams[0].lower(), 4)
-            away = betr_mapping(teams[1].lower(), 4) if sport_id != 4 else betr_mapping(teams[2].lower(), 4)
+            home = betr_mapping(teams[0].lower(), 4) if sport_id == 4 else teams[0]
+            away = teams[1] if sport_id != 4 else betr_mapping(teams[2].lower(), 4)
             home_odds = float(odds[0])
             away_odds = float(odds[1]) if sport_id != 4 else float(odds[2])
             draw_odds = 0
