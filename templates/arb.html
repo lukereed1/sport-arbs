@@ -10,14 +10,14 @@
                 <th>Time</th>
                 <th>Home</th>
                 <th>Home Odds</th>
-                <th>Bookie 1</th>
+                <th>Home Bookie</th>
                 {% if title == "EPL" %}
                     <th>Draw Odds</th>
-                    <th>Bookie 3</th>
+                    <th>Draw Bookie</th>
                 {% endif %}
                 <th>Away</th>
                 <th>Away Odds</th>
-                <th>Bookie 2</th>
+                <th>Away Bookie</th>
                 <th>Arb %</th>
             </tr>
             </thead>
@@ -37,7 +37,7 @@
                     <td>{{ arb['team_2'] }}</td>
                     <td>{{ arb['odds_team_2'] }}</td>
                     <td><a href="{{ arb['book_2_url'] }}">{{ arb['book_2'] }}</a></td>
-                    <td style="background-color: {{ 'lightgreen' if arb['profitable'] else 'lightcoral' }};"
+                    <td class="clickable" style="background-color: {{ 'lightgreen' if arb['profitable'] else 'lightcoral' }};"
                         onclick="showCalculator({{ arb['odds_team_1'] }}, {% if title == 'EPL' %}{{ arb['odds_draw'] }}, {% else %}null, {% endif %}{{ arb['odds_team_2'] }})">
                         {{ arb['arbitrage_sum'] }}
                     </td>
@@ -64,6 +64,10 @@
     </div>
 
     <style>
+        .clickable {
+            cursor: pointer;
+        }
+
         .modal {
             display: none;
             position: fixed;

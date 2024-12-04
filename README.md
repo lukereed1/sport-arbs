@@ -5,6 +5,18 @@ A Python based web application built with Flask that identifies potential arbitr
 - **Game Scraping:** Scrapes upcoming games across various sports
 - **Odds Collecting:** Gathers odds from multiple bookmakers for each available game
 - **Arbitrage detection**: Identifies arbitrage opportunities by comparing odds across multiple bookmakers
+- **Calculator:** Built in calculator to determine bet size for each outcome when profit is guaranteed (click coloured cell of a table row)
+
+## Images
+![arbs](images/arbs.png)
+![calc](images/calc.png)
+![upcoming](images/upcoming.png)
+
+## Current Sports/Leagues
+- NFL
+- NBA
+- NHL
+- EPL
 
 ## To-do
 - Scrape more books

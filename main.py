@@ -16,12 +16,12 @@ def test():
 
     # ned = NedsScraper()
     # ned.scrape_h2h(4)
+    #
+    # sb = SportsbetScraper()
+    # sb.scrape_h2h(3)
 
-    sb = SportsbetScraper()
-    sb.scrape_h2h(3)
-
-    # tab = TabScraper()
-    # tab.scrape_h2h(4)
+    tab = TabScraper()
+    tab.scrape_h2h(2)
 
     # pb = PointsbetScraper()
     # pb.scrape_h2h(4)
