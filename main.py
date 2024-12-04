@@ -9,9 +9,12 @@ from scrapers.tab_scraper import TabScraper
 
 
 def test():
-    ned = NedsScraper()
-    ned.scrape_h2h(4)
-    #
+    # gs = GamesScraper()
+    # gs.get_upcoming_sport_schedule(2)
+
+    # ned = NedsScraper()
+    # ned.scrape_h2h(4)
+
     # sb = SportsbetScraper()
     # sb.scrape_h2h(4)
     # tab = TabScraper()

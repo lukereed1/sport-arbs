@@ -37,7 +37,7 @@ class GamesScraper:
                 # Gets time of games and converts to 24hr format
                 time = game.find("td", class_="date__col")
                 if time is not None:
-                    if time.get_text().strip() == "LIVE":
+                    if time.get_text().strip() == "LIVE" or time.get_text().strip() == "TBD":
                         continue
                     time = self.convert_to_24hr(time.get_text())
                 else:
