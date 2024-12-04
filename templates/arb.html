@@ -11,6 +11,10 @@
                 <th>Home</th>
                 <th>Home Odds</th>
                 <th>Bookie 1</th>
+                {% if title == "EPL" %}
+                    <th>Draw Odds</th>
+                    <th>Bookie 3</th>
+                {% endif %}
                 <th>Away</th>
                 <th>Away Odds</th>
                 <th>Bookie 2</th>
@@ -26,6 +30,10 @@
                     <td>{{ arb['team_1'] }}</td>
                     <td>{{ arb['odds_team_1'] }}</td>
                     <td><a href="{{ arb['book_1_url'] }}">{{ arb['book_1'] }}</a></td>
+                    {% if title == "EPL" %}
+                        <td>{{ arb['odds_draw'] }}</td>
+                        <td><a href="{{ arb['book_3_url'] }}">{{ arb['book_3'] }}</a></td>
+                    {% endif %}
                     <td>{{ arb['team_2'] }}</td>
                     <td>{{ arb['odds_team_2'] }}</td>
                     <td><a href="{{ arb['book_2_url'] }}">{{ arb['book_2'] }}</a></td>
