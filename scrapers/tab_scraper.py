@@ -54,9 +54,6 @@ class TabScraper(BookieScraper):
                     h2h_span = li_game.find_all("span", {"data-content": "Head To Head"})
                     home_odds = float(h2h_span[0].parent.next_sibling.get_text())
                     away_odds = float(h2h_span[1].parent.next_sibling.get_text())
-                    if sport_id == 2:
-                        if home == "Miami Heat":
-                            home_odds = 2.02
                     for game in stored_games:
                         self.update_h2h_market(home, away, game, 3, home_odds, away_odds)
                 else:
