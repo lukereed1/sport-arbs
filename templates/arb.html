@@ -37,7 +37,8 @@
                     <td>{{ arb['team_2'] }}</td>
                     <td>{{ arb['odds_team_2'] }}</td>
                     <td><a href="{{ arb['book_2_url'] }}">{{ arb['book_2'] }}</a></td>
-                     <td style="background-color: {{ 'lightgreen' if arb['profitable'] else 'lightcoral' }};">
+                    <td style="background-color: {{ 'lightgreen' if arb['profitable'] else 'lightcoral' }};"
+                        onclick="showCalculator({{ arb['odds_team_1'] }}, {% if title == 'EPL' %}{{ arb['odds_draw'] }}, {% else %}null, {% endif %}{{ arb['odds_team_2'] }})">
                         {{ arb['arbitrage_sum'] }}
                     </td>
                 </tr>
@@ -48,4 +49,136 @@
     <form action="{{ url_for('scrape_sport_markets', sport=title) }}" method="post">
         <button type="submit">Get {{ title }} Arbs</button>
     </form>
+
+    <div id="calculatorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCalculator()">&times;</span>
+            <h2>Arbitrage Calculator</h2>
+            <p>Enter your total stake:</p>
+            <div class="input-container">
+                <input type="number" id="stake" placeholder="Enter stake" />
+            </div>
+            <button onclick="calculateReturns()">Calculate</button>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .input-container {
+            margin-bottom: 5px;
+        }
+
+        input#stake {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-size: 16px;
+        }
+    </style>
+
+    <script>
+        function showCalculator(homeOdds, drawOdds, awayOdds) {
+            document.getElementById("calculatorModal").style.display = "block";
+            document.getElementById("result").innerHTML = ""; // Clear previous result
+            window.currentHomeOdds = parseFloat(homeOdds);
+            window.currentDrawOdds = drawOdds ? parseFloat(drawOdds) : null;
+            window.currentAwayOdds = parseFloat(awayOdds);
+        }
+
+        function closeCalculator() {
+           document.getElementById("calculatorModal").style.display = "none";
+        }
+
+        function calculateReturns() {
+            const stake = parseFloat(document.getElementById("stake").value);
+            const homeOdds = window.currentHomeOdds;
+            const drawOdds = window.currentDrawOdds;
+            const awayOdds = window.currentAwayOdds;
+            const resultElement = document.getElementById("result");
+
+            if (stake && homeOdds && awayOdds) {
+                let homeStake, drawStake, awayStake;
+
+                if (drawOdds) {
+                    // Three-way calculation
+                    const totalOdds = (1 / homeOdds) + (1 / drawOdds) + (1 / awayOdds);
+                    homeStake = (stake / totalOdds) * (1 / homeOdds);
+                    drawStake = (stake / totalOdds) * (1 / drawOdds);
+                    awayStake = stake - homeStake - drawStake;
+                } else {
+                    // Two-way calculation
+                    homeStake = (stake * (1 / homeOdds)) / ((1 / homeOdds) + (1 / awayOdds));
+                    awayStake = stake - homeStake;
+                }
+
+                const profit = drawOdds
+                    ? Math.max(homeStake * homeOdds, drawStake * drawOdds, awayStake * awayOdds) - stake
+                    : (homeStake * homeOdds) - stake;
+
+                resultElement.innerHTML = `
+                    <p>Bet $${homeStake.toFixed(2)} on Home</p>
+                    ${drawOdds ? `<p>Bet $${drawStake.toFixed(2)} on Draw</p>` : ''}
+                    <p>Bet $${awayStake.toFixed(2)} on Away</p>
+                    <p>Expected profit: $${profit.toFixed(2)}</p>
+                `;
+            } else {
+                resultElement.innerHTML = "Please enter a valid stake.";
+            }
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("calculatorModal");
+            if (event.target === modal) {
+                closeCalculator();
+            }
+        }
+    </script>
+
+
 {% endblock %}

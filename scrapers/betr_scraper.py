@@ -19,6 +19,9 @@ class BetrScraper(BookieScraper):
     def scrape_h2h(self, sport_id):
         print(f"Scraping Sport: {sport_id} Odds for Betr")
         stored_games = self.db.get_upcoming_games(sport_id)
+        if len(stored_games) == 0:
+            print("No games scheduled")
+            return
         soup = asyncio.run(get_soup_playwright_async(self.SPORT_URLS[sport_id]))
 
         try:

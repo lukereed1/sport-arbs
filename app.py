@@ -61,7 +61,7 @@ def calculate_arbs(sport_id):
                 })
           
     all_games_with_arb_percent.sort(key=lambda item: item["arbitrage_sum"])
-    return all_games_with_arb_percent
+    return all_games_with_arb_percent[:100]
 
 
 def calculate_arbs_soccer(sport_id):
@@ -98,7 +98,7 @@ def calculate_arbs_soccer(sport_id):
                         "book_3_url": middle[f"url_{sport_id}"]
                     })
     all_games_with_arb_percent.sort(key=lambda item: item["arbitrage_sum"])
-    return all_games_with_arb_percent
+    return all_games_with_arb_percent[:100]  # Top 100
 
 
 @app.route("/")

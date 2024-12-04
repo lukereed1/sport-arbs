@@ -20,11 +20,14 @@ class TabScraper(BookieScraper):
 
     def scrape_h2h(self, sport_id):
         print(f"Scraping Sport: {sport_id} Odds for TAB")
+        stored_games = self.db.get_upcoming_games(sport_id)
+        if len(stored_games) == 0:
+            print("No games scheduled")
+            return
         try:  # Skip function if bookie not compatible with current sport iteration (url commented out)
             soup = asyncio.run(get_soup_playwright_async(self.SPORT_URLS[sport_id]))
         except KeyError:
             return
-        stored_games = self.db.get_upcoming_games(sport_id)
 
         try:
             games_list = soup.find_all("div", class_="template-item")

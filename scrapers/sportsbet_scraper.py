@@ -17,7 +17,8 @@ class SportsbetScraper(BookieScraper):
     def scrape_h2h(self, sport_id):
         print(f"Scraping Sport: {sport_id} Odds for Sportsbet")
         games = self.db.get_upcoming_games(sport_id)
-        if games is None:
+        if len(games) == 0:
+            print("No games scheduled")
             return
         strainer = SoupStrainer("div", attrs={"data-automation-id": "competition-matches-container"})
         soup = get_soup(self.SPORT_URLS[sport_id], strainer)
@@ -35,6 +36,7 @@ class SportsbetScraper(BookieScraper):
             for game in games:
                 curr_date_games_list = container.next_sibling.find_all("li")
                 for li_game in curr_date_games_list:
+
                     try:
                         live_element = li_game.find("div", class_="live_fst4f0d")
                         if live_element is not None:  # Skip live games
@@ -44,9 +46,8 @@ class SportsbetScraper(BookieScraper):
                             home = li_game.find("div", {"data-automation-id": "participant-two"})
 
                             if away is None or home is None:
-                                teams = li_game.find_all("span", class_="size14_f7opyze Endeavour_fhudrb0 "
-                                                                        "medium_f1wf24vo"
-                                                                        "participant_f1adow81")
+                                teams = li_game.find_all("span", class_="Endeavour_fhudrb0")
+
                                 away = teams[0].get_text().replace("@", "").strip()
                                 home = teams[1].get_text().replace("@", "").strip()
 
